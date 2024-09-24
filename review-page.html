@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Shoes Review Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>. 
+
+<head>
+<link rel="stylesheet" type="text/css" href="review-page.css">
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>They all love our shoes</h1>
+        </header>
+
+        <section class="reviews">
+            <h2>Lets see what all our customers around the wrold thing about our shoes. the best quality in the market in our online shop</h2>
+            <div id="reviewContainer" class="review-container">
+                <!-- Reviews will be displayed here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const reviews = [
+            { name: "Nadav", rating: 5, comment: "Absolutely love these shoes! The best I've ever owned." },
+            { name: "Roma", rating: 4, comment: "Great shoes, but a bit pricey." },
+            { name: "Amit", rating: 3, comment: "Decent shoes, but they could be more comfortable." },
+            { name: "Victor", rating: 5, comment: "Fantastic quality and perfect fit!" },
+            { name: "Uri", rating: 2, comment: "Not satisfied. They don't match the description." },
+            { name: "Linoy", rating: 4, comment: "Good overall, though the delivery was delayed." },
+            { name: "Ofek", rating: 3, comment: "Average shoes, nothing special." },
+            { name: "Hamad", rating: 5, comment: "These shoes are incredible. Highly recommend!" },
+            { name: "Dana", rating: 4, comment: "Very comfortable and stylish." },
+            { name: "Mirit", rating: 2, comment: "The size was wrong, not happy with the purchase." }
+            
+            
+        ];
+
+        let currentReviewIndex = 0;
+
+        function displayReviews() {
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+
+            for (let i = 0; i < 5; i++) {
+                const review = reviews[(currentReviewIndex + i) % reviews.length];
+
+                const reviewDiv = document.createElement('div');
+                reviewDiv.classList.add('review');
+
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+
+                reviewDiv.innerHTML = `
+                    <h3>${review.name}</h3>
+                    <div class="stars">${stars}</div>
+                    <p>${review.comment}</p>
+                `;
+
+                reviewContainer.appendChild(reviewDiv);
+            }
+
+            currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+        }
+
+        displayReviews(); // Display the initial set of reviews
+        setInterval(displayReviews, 7000); // Change reviews every 7 seconds
+    </script>
+</body>
+</html>
