@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - Nike-like Shoe Shop</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <h1>Our Suppliers</h1>
+        <div id="supplier-list"></div>
+        <% if (user && user.isAdmin) { %>
+            <button id="add-supplier" class="rounded-button">Add New Supplier</button>
+        <% } %>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/suppliers.js"></script>
+</body>
+</html>

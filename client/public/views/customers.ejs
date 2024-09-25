@@ -1,0 +1,46 @@
+$(document).ready(function() {
+    const customerId = /* Get customer ID from URL or user session */;
+
+    function loadCustomerInfo() {
+        $.ajax({
+            url: `/api/customers/${customerId}`,
+            method: 'GET',
+            success: function(customer) {
+                $('#customer-info').html(`
+                    <h2>${customer.name}</h2>
+                    <p>Email: ${customer.email}</p>
+                    <p>Address: ${customer.address}</p>
+                `);
+            },
+            error: function(err) {
+                console.error('Error loading customer info:', err);
+                $('#customer-info').html('<p>Error loading customer information.</p>');
+            }
+        });
+    }
+
+    function loadOrderHistory() {
+        $.ajax({
+            url: `/api/customers/${customerId}/orders`,
+            method: 'GET',
+            success: function(orders) {
+                const orderList = orders.map(order => `
+                    <div class="order">
+                        <h3>Order #${order._id}</h3>
+                        <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
+                        <p>Total: $${order.total.toFixed(2)}</p>
+                    </div>
+                `).join('');
+                
+                $('#order-history').html(orderList);
+            },
+            error: function(err) {
+                console.error('Error loading order history:', err);
+                $('#order-history').html('<p>Error loading order history.</p>');
+            }
+        });
+    }
+
+    loadCustomerInfo();
+    loadOrderHistory();
+});

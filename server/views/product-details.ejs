@@ -1,0 +1,67 @@
+<%- include('partials/header', {title: product.name}); %>
+
+<main class="container">
+    <div class="product-details">
+        <div class="product-images">
+            <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="main-image">
+            <div class="thumbnail-images">
+                <% product.additionalImages.forEach(image => { %>
+                    <img src="<%= image %>" alt="<%= product.name %>" class="thumbnail">
+                <% }); %>
+            </div>
+        </div>
+        <div class="product-info">
+            <h1><%= product.name %></h1>
+            <p class="price">$<%= product.price.toFixed(2) %></p>
+            <p class="description"><%= product.description %></p>
+            <p class="category">Category: <%= product.category %></p>
+            <p class="stock <%= product.inStock ? 'in-stock' : 'out-of-stock' %>">
+                <%= product.inStock ? 'In Stock' : 'Out of Stock' %>
+            </p>
+            <div class="size-selection">
+                <label for="size">Size:</label>
+                <select id="size">
+                    <% product.availableSizes.forEach(size => { %>
+                        <option value="<%= size %>"><%= size %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <button class="btn btn-primary add-to-cart" data-id="<%= product._id %>">Add to Cart</button>
+        </div>
+    </div>
+
+    <section class="product-reviews">
+        <h2>Customer Reviews</h2>
+        <% if (product.reviews.length > 0) { %>
+            <% product.reviews.forEach(review => { %>
+                <div class="review">
+                    <p class="review-author"><%= review.author %></p>
+                    <p class="review-rating">
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <span class="star <%= i < review.rating ? 'filled' : '' %>">★</span>
+                        <% } %>
+                    </p>
+                    <p class="review-content"><%= review.content %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No reviews yet. Be the first to review this product!</p>
+        <% } %>
+    </section>
+
+    <section class="related-products">
+        <h2>You May Also Like</h2>
+        <div class="product-grid">
+            <% relatedProducts.forEach(product => { %>
+                <div class="product-card">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
+                    <h3><%= product.name %></h3>
+                    <p class="price">$<%= product.price.toFixed(2) %></p>
+                    <a href="/products/<%= product._id %>" class="btn btn-secondary">View Details</a>
+                </div>
+            <% }); %>
+        </div>
+    </section>
+</main>
+
+<%- include('partials/footer'); %>

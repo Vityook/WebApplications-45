@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Nike-like Shoe Shop</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#products">Manage Products</a></li>
+                <li><a href="#customers">Manage Customers</a></li>
+                <li><a href="#orders">Manage Orders</a></li>
+                <li><a href="#suppliers">Manage Suppliers</a></li>
+            </ul>
+        </nav>
+        <section id="products">
+            <h2>Manage Products</h2>
+            <div id="product-list"></div>
+            <button id="add-product">Add New Product</button>
+        </section>
+        <section id="customers">
+            <h2>Manage Customers</h2>
+            <div id="customer-list"></div>
+        </section>
+        <section id="orders">
+            <h2>Manage Orders</h2>
+            <div id="order-list"></div>
+        </section>
+        <section id="suppliers">
+            <h2>Manage Suppliers</h2>
+            <div id="supplier-list"></div>
+            <button id="add-supplier">Add New Supplier</button>
+        </section>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
