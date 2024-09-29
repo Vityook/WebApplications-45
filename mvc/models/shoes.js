@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const products = [
     {
       "id": "1",
@@ -65,11 +67,27 @@ const products = [
     }
   ]
 
-  //נחשוף את הפונקציה הזו החוצה
-  //והיא בעצם מחזירה מערך  
-  function getAllshoes(){
-    return products
-  }
+const shoeSchema = new mongoose.Schema({
+    name: String,
+    price: String,
+    imageSrc: String,
+    rating: Number,
+    isFavorite: Boolean
+});
+
+// Create the shoe model
+const Shoe = mongoose.model('Shoe', shoeSchema);
+
+// Function to get all shoes
+async function getAllshoes() {
+    try {
+        const shoes = await Shoe.find();  // Retrieve all shoes from MongoDB
+        return shoes;
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
+}
 
   // כדי שיהיה ניתן ךקרוא לפונקציה הזו מקובץ אחר 
   module.exports = {

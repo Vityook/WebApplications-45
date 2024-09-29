@@ -1,5 +1,7 @@
 const shoesModel =require('../models/shoes')
 
-function  showAllshoes(req,res){
-    res.render("shoes.ejs",  { "products": shoesModel.getAllshoes() })}
-module.exports = {showAllshoes}
+async function  showAllshoes(req,res){
+    const products = await shoesModel.getAllshoes();  // Fetch products from MongoDB
+    res.render("shoes.ejs", { products });
+}
+module.exports = {showAllshoes};
