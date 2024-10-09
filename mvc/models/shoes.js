@@ -74,17 +74,12 @@ async function seedShoes() {
     ];
 
     try {
-        // Check each product from the predefined list
         for (const product of products) {
-            // Check if the product already exists by its unique 'name' field
             const existingProduct = await Shoe.findOne({ imageSrc: product.imageSrc });
-            
             if (!existingProduct) {
-                // If product does not exist, insert it into the collection
                 await Shoe.create(product);
             }
         }
-
     } catch (err) {
         console.error('Error during seeding: ', err);
     }
@@ -92,16 +87,38 @@ async function seedShoes() {
 
 // Function to get all shoes
 async function getAllshoes() {
-  try {
-      const shoes = await Shoe.find();  // Retrieve all shoes from MongoDB
-      return shoes;
-  } catch (err) {
-      console.error(err);
-      return [];
-  }
+    try {
+        const shoes = await Shoe.find();
+        return shoes;
+    } catch (err) {
+        console.error('Error fetching all shoes:', err);
+        return [];
+    }
+}
+
+// Function to get one shoe by ID
+async function getOneshoe(id) {
+    try {
+        const shoe = await Shoe.findById(id);
+        return shoe;
+    } catch (err) {
+        console.error('Error fetching single shoe:', err);
+        return null;
+    }
+}
+
+// Function to delete a shoe by ID
+async function deleteShoe(id) {
+    try {
+        await Shoe.findByIdAndDelete(id);
+    } catch (err) {
+        console.error('Error deleting shoe:', err);
+    }
 }
 
 module.exports = {
     getAllshoes,
+    getOneshoe,
+    deleteShoe,
     seedShoes
 };

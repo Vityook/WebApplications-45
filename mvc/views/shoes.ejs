@@ -4,7 +4,7 @@
     <title>Shoes</title>
     <link rel="stylesheet" href="shoes.css">
     <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <a href="pdoducts.html"></a>
+    
 </head>
 <body>
     
@@ -28,26 +28,43 @@
                 <i class="fa-solid fa-user" id="user-icon"></i>  
             </div>
 
-            <!-- Login Popup -->
+           <!-- Login and Register Popup -->
  <div class="popup-container" id="popupContainer">
     <div class="popup-content">
         <span class="close" id="closePopup">&times;</span>
-        <h2>Login</h2>
-        <form>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
-        </form>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h2>Login</h2>
+            <form>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" id="showRegisterForm">Register here</a></p>
+        </div>
+
+        <!-- Registration Form -->
+        <div id="registerForm" style="display: none;">
+            <h2>Register</h2>
+            <form>
+                <label for="reg-username">Username:</label>
+                <input type="text" id="reg-username" name="username" required>
+                <label for="reg-email">Email:</label>
+                <input type="email" id="reg-email" name="email" required>
+                <label for="reg-password">Password:</label>
+                <input type="password" id="reg-password" name="password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="#" id="showLoginForm">Login here</a></p>
+        </div>
+
     </div>
 </div>
 
-
  
-
-
-
         </nav>
             
             <div class="main" id="Home">
@@ -59,7 +76,8 @@
                             where passion for sneakers meets unparalleled style and innovation.
                             Whether you're a seasoned sneakerhead or just starting your collection,
                             our curated selection offers something for everyone. From classic designs to the latest drops,
-                            we bring you the finest in comfort, craftsmanship, and cutting-edge trends. Step into a world where every pair tells a story, and let your sneakers do the talking.
+                            we bring you the finest in comfort, craftsmanship, and cutting-edge trends. Step into a world where every pair tells a story,
+                             and let your sneakers do the talking.
                             Discover your next favorite pair today, and elevate your sneaker game to new heights.
                         </p>
                     </div>
@@ -73,67 +91,88 @@
                     <i class="fa-brands fa-instagram"></i>
                 </div>
 
-                <div class="button">
-                    <a href="#">Shop Now</a>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
+                
             </div>
     </section>
 
    <!-- Dynamic Products Section -->
-   <div class="products" id="Prod">
-    <h1>Latest & Greatest</h1>
-
+   
     <div class="box">
-        <% products.forEach(function(product) { %>
-            <div class="card">
-                <div class="small_card">
-                    <i class="fa-solid <%= product.isFavorite ? 'fa-heart' : 'fa-heart' %>"></i>
-                    <i class="fa-solid fa-share"></i>
-                </div>
-
-                <div class="image">
-                    <img src="<%= product.imageSrc %>" alt="<%= product.name %>">
-                </div>
-               
-                <div class="product_text">
-                    <h2><%= product.name %></h2>
-                    <h3><%= product.price %></h3>
-                    <div class="stars">
-                        <% for(let i = 0; i < product.rating; i++) { %>
-                            <i class="fa-solid fa-star"></i>
-                        <% } %>
+        <div class="products" id="Prod">
+            <h1>Latest & Greatest</h1>
+        
+            <div class="box">
+                <% for (let i = 0; i < products.length; i++) { %>
+                    <div class="card">
+                        <div class="small_card">
+                            <i class="fa-solid <%= products[i].isFavorite ? 'fa-heart' : 'fa-heart' %>"></i>
+                        </div>
+        
+                        <div class="image">
+                            <img src="<%= products[i].imageSrc %>" alt="<%= products[i].name %>">
+                        </div>
+                       
+                        <div class="product_text">
+                            <h2><%= products[i].name %></h2>
+                            <h3><%= products[i].price %></h3>
+                            <a class="link" href="/shoe?id=<%= products[i].id %>">Show</a>
+                            <a class="link" href="/deleteshoe?id=<%= products[i].id %>">Delete</a>
+                            <div class="stars">
+                                <% for(let j = 0; j < products[i].rating; j++) { %>
+                                    <i class="fa-solid fa-star"></i>
+                                <% } %>
+                            </div>
+                            <a href="#" class="btn">Add To Cart</a>
+                        </div>
                     </div>
-                    <a href="#" class="btn">Add To Cart</a>
-                </div>
+                <% } %>
             </div>
-        <% }); %>
+        </div>
+        
     </div>
 </div>
 
-    <script>
-        // Get elements
-const userIcon = document.getElementById('user-icon');
-const popupContainer = document.getElementById('popupContainer');
-const closePopup = document.getElementById('closePopup');
+<script>
+    // Get elements
+    const loginIcon = document.getElementById('user-icon');
+    const popupContainer = document.getElementById('popupContainer');
+    const closePopup = document.getElementById('closePopup');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const showRegisterForm = document.getElementById('showRegisterForm');
+    const showLoginForm = document.getElementById('showLoginForm');
 
-// Show the popup when the user icon is clicked
-userIcon.addEventListener('click', () => {
-    popupContainer.style.display = 'flex';
-});
+    // Show the popup when the user icon is clicked
+    loginIcon.addEventListener('click', () => {
+        popupContainer.style.display = 'flex';
+    });
 
-// Hide the popup when the close button is clicked
-closePopup.addEventListener('click', () => {
-    popupContainer.style.display = 'none';
-});
-
-// Hide the popup if the user clicks outside the popup content
-window.addEventListener('click', (event) => {
-    if (event.target === popupContainer) {
+    // Hide the popup when the close button is clicked
+    closePopup.addEventListener('click', () => {
         popupContainer.style.display = 'none';
-    }
-});
-    </script>
+    });
+
+    // Hide the popup if the user clicks outside the popup content
+    window.addEventListener('click', (event) => {
+        if (event.target === popupContainer) {
+            popupContainer.style.display = 'none';
+        }
+    });
+
+    // Show registration form when 'Register here' is clicked
+    showRegisterForm.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+    });
+
+    // Show login form when 'Login here' is clicked
+    showLoginForm.addEventListener('click', (e) => {
+        e.preventDefault();
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+</script>
 
 </body>
 </html>
