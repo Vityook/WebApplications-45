@@ -1,0 +1,139 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoes</title>
+    <link rel="stylesheet" href="shoes.css">
+    <link rel="stylesheet" href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <a href="pdoducts.html"></a>
+</head>
+<body>
+    
+    <section>
+        <nav>
+            <div class="logo">
+                <h1> Sneaker<span>s</span></h1>
+            </div>
+
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#Review">Review</a></li>
+                <li><a href="#Services">Services</a></li>
+            </ul>
+
+            <div class="icons">
+                <i class="fa-solid fa-heart"></i>
+                <i class="fa-solid fa-cart-shopping"></i>
+                <i class="fa-solid fa-user" id="user-icon"></i>  
+            </div>
+
+            <!-- Login Popup -->
+ <div class="popup-container" id="popupContainer">
+    <div class="popup-content">
+        <span class="close" id="closePopup">&times;</span>
+        <h2>Login</h2>
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+
+ 
+
+
+
+        </nav>
+            
+            <div class="main" id="Home">
+                <div class="main_content">
+                    <div class="main_text">
+                        <h1>Shoes<br><span>Collection</span></h1>
+                        <p>
+                            Welcome to our sneakers shop,
+                            where passion for sneakers meets unparalleled style and innovation.
+                            Whether you're a seasoned sneakerhead or just starting your collection,
+                            our curated selection offers something for everyone. From classic designs to the latest drops,
+                            we bring you the finest in comfort, craftsmanship, and cutting-edge trends. Step into a world where every pair tells a story, and let your sneakers do the talking.
+                            Discover your next favorite pair today, and elevate your sneaker game to new heights.
+                        </p>
+                    </div>
+                    <div class="main_image">
+                        <img src="images/img1.png">
+                    </div>
+                </div>
+                <div class="social_icon">
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+
+                <div class="button">
+                    <a href="#">Shop Now</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </div>
+    </section>
+
+   <!-- Dynamic Products Section -->
+   <div class="products" id="Prod">
+    <h1>Latest & Greatest</h1>
+
+    <div class="box">
+        <% products.forEach(function(product) { %>
+            <div class="card">
+                <div class="small_card">
+                    <i class="fa-solid <%= product.isFavorite ? 'fa-heart' : 'fa-heart' %>"></i>
+                    <i class="fa-solid fa-share"></i>
+                </div>
+
+                <div class="image">
+                    <img src="<%= product.imageSrc %>" alt="<%= product.name %>">
+                </div>
+               
+                <div class="product_text">
+                    <h2><%= product.name %></h2>
+                    <h3><%= product.price %></h3>
+                    <div class="stars">
+                        <% for(let i = 0; i < product.rating; i++) { %>
+                            <i class="fa-solid fa-star"></i>
+                        <% } %>
+                    </div>
+                    <a href="#" class="btn">Add To Cart</a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+    <script>
+        // Get elements
+const userIcon = document.getElementById('user-icon');
+const popupContainer = document.getElementById('popupContainer');
+const closePopup = document.getElementById('closePopup');
+
+// Show the popup when the user icon is clicked
+userIcon.addEventListener('click', () => {
+    popupContainer.style.display = 'flex';
+});
+
+// Hide the popup when the close button is clicked
+closePopup.addEventListener('click', () => {
+    popupContainer.style.display = 'none';
+});
+
+// Hide the popup if the user clicks outside the popup content
+window.addEventListener('click', (event) => {
+    if (event.target === popupContainer) {
+        popupContainer.style.display = 'none';
+    }
+});
+    </script>
+
+</body>
+</html>
