@@ -11,159 +11,46 @@
         <h1>Find your Perfect pair</h1>
         <nav>
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/">Home</a></li>
             </ul>
         </nav>
     </header>
     
     <main>
-        <section id="home">
-            <!-- shoes can be added here -->
-            <section id="products">
-                <h2>Our Products</h2>
+        <section id="products">
+            <h2>Our Products</h2>
+            <% 
+                const products = [
+                    { name: "Running Shoe 1", price: 99.99, img: "images/img1.png" },
+                    { name: "Running Shoe 2", price: 119.99, img: "images/img8.png" },
+                    { name: "Running Shoe 3", price: 109.99, img: "images/pic2.png" },
+                    { name: "Running Shoe 4", price: 129.99, img: "images/pic3.png" },
+                    { name: "Running Shoe 5", price: 89.99, img: "images/pic4.png" },
+                    { name: "Running Shoe 6", price: 139.99, img: "images/pic5.jpeg" },
+                    { name: "Running Shoe 7", price: 109.99, img: "images/pic6.png" },
+                    { name: "Running Shoe 8", price: 119.99, img: "images/pic7.png" },
+                    { name: "Running Shoe 9", price: 99.99, img: "images/nike-free.png" },
+                    { name: "Running Shoe 10", price: 129.99, img: "images/puma.png" }
+                ]; 
+            %>
+        
+            <% products.forEach(product => { %>
                 <div class="product-card">
                     <div class="product-card-inner">
                         <div class="product-card-front">
-                            <img src="images/img1.png" alt="Running Shoe 1">
+                            <img src="<%= product.img %>" alt="<%= product.name %>">
                         </div>
                         <div class="product-card-back">
                             <div class="product-info">
-                                <h3>Running Shoe 1</h3>
-                                <p>Price: $99.99</p>
+                                <h3><%= product.name %></h3>
+                                <p>Price: $<%= product.price.toFixed(2) %></p>
                                 <button>Add to Cart</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\img8.png" alt="Running Shoe 2">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 2</h3>
-                                <p>Price: $119.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic2.png" alt="Running Shoe 3">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 3</h3>
-                                <p>Price: $109.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic3.png" alt="Running Shoe 4">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 4</h3>
-                                <p>Price: $129.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic4.png" alt="Running Shoe 5">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 5</h3>
-                                <p>Price: $89.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic5.jpeg" alt="Running Shoe 6">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 6</h3>
-                                <p>Price: $139.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic6.png" alt="Running Shoe 7">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 7</h3>
-                                <p>Price: $109.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\pic7.png" alt="Running Shoe 8">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 8</h3>
-                                <p>Price: $119.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\nike-free.png" alt="Running Shoe 9">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 9</h3>
-                                <p>Price: $99.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-inner">
-                        <div class="product-card-front">
-                            <img src="images\puma.png" alt="Running Shoe 10">
-                        </div>
-                        <div class="product-card-back">
-                            <div class="product-info">
-                                <h3>Running Shoe 10</h3>
-                                <p>Price: $129.99</p>
-                                <button>Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <% }); %>
+        </section>
     <!-- Add more product cards here as needed -->
 </div>
         <!--end of soes part-->
