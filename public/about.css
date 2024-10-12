@@ -1,0 +1,71 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e8f5e9; /* Light green background */
+    color: #2e7d32; /* Darker green text color */
+    line-height: 1.6;
+}
+
+header {
+    background-color: #1b5e20; /* Dark green */
+    color: #e8f5e9; /* Light green text */
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 5px solid #66bb6a; /* Accent green border */
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: bold;
+    margin: 0;
+}
+
+p {
+   
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.about-content {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff; /* White content background */
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    transition: transform 0.3s ease;
+}
+
+.about-content:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+h2 {
+   
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #388e3c; /* Medium green for headings */
+}
+
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #4caf50; /* Bright green for list items */
+}
+
+ul li strong {
+    color: #2e7d32; /* Dark green for strong emphasis */
+}
+
+
+
+a{
+    color: #2e7d32;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

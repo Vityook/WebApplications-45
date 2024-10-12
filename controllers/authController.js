@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
         const newUser = new User({ username, email, password, role });
         await newUser.save();
 
-        res.status(201).redirect('/');  // Redirect to login page after registration
+        res.status(201).redirect('/login');  // Redirect to login page after registration
     } catch (err) {
         console.log(err);
         res.status(500).send('Server error');

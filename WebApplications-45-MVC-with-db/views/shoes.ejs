@@ -131,7 +131,7 @@
                             <h2><%= products[i].name %></h2>
                             <h3><%= products[i].price %></h3>
                             <a class="link" href="/shoe?id=<%= products[i].id %>">Show</a>
-                            <% if (isAuthenticated) { %>
+                            <% if (user && user.role === 'admin') { %>
                                 <a class="link" href="/deleteshoe?id=<%= products[i].id %>">Delete</a>
                             <% } %>
                             <div class="stars">

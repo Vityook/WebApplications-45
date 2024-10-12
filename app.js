@@ -47,14 +47,7 @@ app.use('/auth', authRoutes);
 app.get('/', shoesController.showAllshoes);
 app.get('/login', loginController.loginpage);
 app.get('/shoe', shoesController.getOneshoe);
-app.get('/deleteshoe', isAuthenticated, isAdmin, (req, res) => {
-  if (typeof shoesController.deleteShoe === 'function') {
-      shoesController.deleteShoe(req, res);
-  } else {
-      res.status(500).send('deleteShoe function is not defined');
-  }
-});
-
+app.get('/deleteshoe', isAuthenticated, shoesController.deleteShoe);
 app.get('/about', aboutController.aboutpage);
 app.get('/review', reviewController.reviewpage);
 
