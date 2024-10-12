@@ -2,7 +2,6 @@ const express = require('express');
 const connectDB = require('./database');
 const { seedShoes } = require('./models/shoes');
 const session = require('express-session');
-const cartController = require('./controllers/cartController');
 const authRoutes = require('./routes/authRoutes');
 const authController = require('./controllers/authController');
 const { isAuthenticated, isAdmin } = require('./middlewares/authMiddleware');
@@ -10,6 +9,7 @@ const shoesController = require('./controllers/shoes');
 const loginController = require('./controllers/login');
 const aboutController = require('./controllers/about');
 const reviewController = require('./controllers/review');
+const adminController = require('./controllers/adminController');
 require('dotenv').config();
 
 const app = express();
@@ -25,6 +25,13 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
+
+// Admin routes
+app.get('/admin/panel', isAuthenticated, isAdmin, adminController.getAdminPanel);
+app.post('/admin/update-user-role', isAuthenticated, isAdmin, adminController.updateUserRole);
+app.delete('/admin/delete-user/:userId', isAuthenticated, isAdmin, adminController.deleteUser);
+app.post('/admin/create-user', isAuthenticated, isAdmin, adminController.createUser);
+app.post('/admin/reset-password/:userId', isAuthenticated, isAdmin, adminController.resetPassword);
 
 // Authentication middleware
 app.use((req, res, next) => {
@@ -46,12 +53,6 @@ app.get('/review', reviewController.reviewpage);
 
 // Authentication routes
 app.post('/login', authController.login);
-
-// Cart routes
-app.get('/cart', cartController.getCart);
-app.get('/cart/add/:imageSrc', cartController.addToCart);
-app.get('/cart/remove/:imageSrc', cartController.removeFromCart);
-app.get('/cart/reduce/:imageSrc', cartController.reduceByOne);
 
 app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
   res.send('Welcome to the admin panel!');

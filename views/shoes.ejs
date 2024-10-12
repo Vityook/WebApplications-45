@@ -21,6 +21,9 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#Review">Review</a></li>
                 <li><a href="#Services">Services</a></li>
+                <% if (isAuthenticated && user.role === 'admin') { %>
+                    <li><a href="/admin/panel" class="admin-button">Admin Panel</a></li>
+                <% } %>
             </ul>
 
             <div class="icons">
@@ -216,6 +219,26 @@
                     });
             });
         }
+
+            document.addEventListener('DOMContentLoaded', function() {
+        const adminButton = document.querySelector('.admin-button');
+        if (adminButton) {
+            // Check if we have user data available
+            const userDataElement = document.getElementById('userData');
+            if (userDataElement) {
+                const userData = JSON.parse(userDataElement.textContent);
+                if (!userData.isAdmin) {
+                    adminButton.style.display = 'none';
+                }
+            } else {
+                // If we can't verify admin status, hide the button
+                adminButton.style.display = 'none';
+            }
+        }
+    });
+    </script>
+    <script id="userData" type="application/json">
+        <%- JSON.stringify({ isAdmin: user && user.role === 'admin' }) %>
     </script>
 </body>
 </html>

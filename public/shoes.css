@@ -332,3 +332,14 @@ section .main .button i:hover{
     background:linear-gradient(rgb(46, 204, 113),rgb(147, 187, 28))
 }
 
+.admin-button {
+    background-color: #ff4500;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.admin-button:hover {
+    background-color: #ff6347;
+}

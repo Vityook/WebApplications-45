@@ -12,21 +12,32 @@ const userSchema = new mongoose.Schema({
 // Hash the password before saving the user
 userSchema.pre('save', async function (next) {
     try {
-        if (!this.isModified('password')) {
-            return next();
+        if (this.isModified('password')) {
+            console.log('Password field modified, hashing password');
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(this.password, salt);
+            this.password = hashedPassword;
+            console.log('Password hashed successfully');
+        } else {
+            console.log('Password not modified, skipping hashing');
         }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(this.password, salt);
-        this.password = hashedPassword;
         next();
     } catch (err) {
-        return next(err);
+        console.error('Error in pre-save hook:', err);
+        next(err);
     }
 });
 
 // Method to compare passwords for login
-userSchema.methods.comparePassword = function (candidatePassword) {
-    return bcrypt.compare(candidatePassword, this.password);
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    try {
+        const isMatch = await bcrypt.compare(candidatePassword, this.password);
+        console.log('Password comparison result:', isMatch);
+        return isMatch;
+    } catch (err) {
+        console.error('Error comparing passwords:', err);
+        throw err;
+    }
 };
 
 const User = mongoose.model('User', userSchema);
