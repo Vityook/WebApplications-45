@@ -74,3 +74,63 @@ header {
     margin: 0;
     text-align: center; /* Center comment text */
 }
+nav {
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    padding: 10px 0; /* Padding for spacing */
+    position: relative; /* Positioning for stacking */
+    z-index: 1; /* Ensure it sits above the background image */
+}
+
+nav ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center the nav items */
+}
+
+nav li {
+    display: inline; /* Make list items display inline */
+    margin: 0 15px; /* Spacing between buttons */
+}
+
+nav a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    padding: 10px 15px; /* Padding around the links */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+nav a:hover {
+    background-color: #e0e0e0; /* Background color on hover */
+}
+nav {
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    padding: 10px 0; /* Padding for spacing */
+    position: relative; /* Positioning for stacking */
+    z-index: 1; /* Ensure it sits above the background image */
+}
+
+nav ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Center the nav items */
+}
+
+nav li {
+    display: inline; /* Make list items display inline */
+    margin: 0 15px; /* Spacing between buttons */
+}
+
+nav a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Text color */
+    padding: 10px 15px; /* Padding around the links */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+nav a:hover {
+    background-color: #e0e0e0; /* Background color on hover */
+}
