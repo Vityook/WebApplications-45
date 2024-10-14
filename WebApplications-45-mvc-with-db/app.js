@@ -70,7 +70,7 @@ app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
 connectDB()
   .then(async () => {
     await seedShoes();
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 80;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

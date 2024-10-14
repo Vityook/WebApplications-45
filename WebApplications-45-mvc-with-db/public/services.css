@@ -1,71 +1,121 @@
-body {
-    font-family: 'Roboto', sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #e8f5e9; /* Light green background */
-    color: #2e7d32; /* Darker green text color */
-    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('images/service-transformed.jpeg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 header {
-    background-color: #1b5e20; /* Dark green */
-    color: #e8f5e9; /* Light green text */
-    padding: 30px 20px;
+    background-color: rgb(48, 47, 47); /* Darker green for the header */
+    padding: 20px 0; /* Increased padding for more space */
     text-align: center;
-    border-bottom: 5px solid #66bb6a; /* Accent green border */
+    color: rgb(253, 253, 253);
 }
 
-h1 {
-    font-size: 3em;
-    font-weight: bold;
-    margin: 0;
+nav {
+    margin-top: 20px; /* Add margin to lower the navigation */
+    text-align: center; /* Center the navigation content */
+
 }
 
-p {
-   
-    font-size: 1.2em;
-    margin: 10px 0;
+nav ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
 }
 
-.about-content {
-    max-width: 900px;
-    margin: 60px auto;
-    padding: 40px;
-    background-color: #ffffff; /* White content background */
-    border-radius: 10px; /* Smooth rounded corners */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Softer shadow */
-    transition: transform 0.3s ease;
+nav ul li {
+    display: inline; /* Arrange items in a row */
+    margin: 0 15px; /* Space between buttons */
 }
 
-.about-content:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
+nav ul li a {
+    text-decoration: none; /* Remove underline */
+    color: black; /* Black text color */
+    padding: 10px 20px; /* Button padding */
+    background-color: rgb(190, 6, 6); /* Transparent background for buttons */
+    border: 2px solid black; /* Black border */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
 }
 
-h2 {
-   
-    font-size: 2em;
-    margin-bottom: 10px;
-    color: #388e3c; /* Medium green for headings */
+nav ul li a:hover {
+    background-color: black; /* Black background on hover */
+    color: white; /* White text on hover */
 }
 
-ul {
-    list-style-type: square;
-    padding-left: 20px;
+.shop-section {
+    display: flex; /* Flexbox for alignment */
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+    margin: 8cm 0 0 20px; /* Position 8cm lower than the home button */
 }
 
-ul li {
-    margin-bottom: 15px;
-    font-size: 1.1em;
-    color: #4caf50; /* Bright green for list items */
+.shop-frame {
+    background-color: rgb(190, 6, 6); /* Make background transparent */
+    border: 2px solid black; /* Black border to match buttons */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding to match buttons */
+    margin-bottom: 0; /* No space below the frames */
+    width: 200px; /* Width of the frames */
+    position: relative; /* Position for absolute elements */
+    cursor: pointer; /* Pointer cursor on hover */
 }
 
-ul li strong {
-    color: #2e7d32; /* Dark green for strong emphasis */
+.shop-title {
+    font-weight: bold; /* Bold text for shop title */
+    color: #000000; /* Very dark color for text */
 }
 
+.additional-info {
+    display: none; /* Initially hidden */
+}
 
+.info-text {
+    cursor: pointer; /* Pointer cursor on hover */
+}
 
-a{
-    color: #2e7d32;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+.info-bubble {
+    display: none; /* Initially hidden */
+    background-color: rgba(240, 117, 117, 0.9); /* Semi-transparent background */
+    border: 2px solid black; /* Border to match the frame */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding */
+    text-align: center; /* Center text */
+    position: absolute; /* Position relative to shop frame */
+    top: 50%; /* Center it vertically */
+    left: 100%; /* Position it to the right of the frame */
+    transform: translateY(-50%); /* Adjust for centering */
+    white-space: nowrap; /* Prevent line breaks */
+}
+
+.opening-hours {
+    margin-top: -3px; /* Move closer to the shop frame */
+    margin-bottom: 5cm; /* Keep some space before the next shop */
+    padding: 5px; /* Padding for spacing inside the frame */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #5e5c5c; /* Match the background color */
+    text-align: left; /* Align text to the left */
+}
+
+table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Merge borders */
+    margin-top: 10px; /* Space above the table */
+}
+
+th, td {
+    border: 1px solid black; /* Border for cells */
+    padding: 8px; /* Padding for cells */
+    text-align: center; /* Center text */
+}
+
+th {
+    background-color: #f2f2f2; /* Light gray background for header */
 }

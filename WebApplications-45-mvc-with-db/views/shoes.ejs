@@ -17,9 +17,9 @@
 
             <ul>
                 <li><a href="#home" id="homeLink">Home</a></li>
-                <li><a href="#about" id="aboutLink">About</a></li>
-                <li><a href="#Review" id="reviewLink">Review</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="/about" id="aboutLink">About</a></li>
+                <li><a href="/Review" id="reviewLink">Review</a></li>
+                <li><a href="/services" id="servicesLink">Services</a></li>
                 <% if (isAuthenticated && user.role === 'admin') { %>
                     <li><a href="/admin/panel" class="admin-button">Admin Panel</a></li>
                 <% } %>
@@ -300,6 +300,9 @@
     
         // about page js // Get references to elements
         const aboutLink = document.getElementById('aboutLink');
+
+        //services js //
+        const servicesLink = document.getElementById('servicesLink');
     
         // Event listener for the "About" link
         aboutLink.addEventListener('click', (event) => {

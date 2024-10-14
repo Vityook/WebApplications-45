@@ -1,40 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>About Us - ShoeStore</title>
-    <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="services.css">
+    <title>Shop Page</title>
 </head>
 <body>
     <header>
-        <h1>About Sneakers </h1>
-        <p>Your one-stop shop for quality footwear!</p>
+        <h1>We are here to help</h1>
     </header>
 
-    <section class="about-content">
-        <h2>Our Storyoooooo</h2>
-        <p>
-            At Sneakers, we believe that footwear is more than just a necessity, it's an expression of your personal style and comfort. 
-            We began our journey in 2024 with a simple goal: to provide high-quality shoes for every occasion. From casual sneakers to professional dress shoes, we curate the best styles to meet your needs.
-        </p>
-        
-        <h2>Our Values</h2>
+    <nav>
         <ul>
-            <li><strong>Quality:</strong> We offer premium materials and craftsmanship in every shoe.</li>
-            <li><strong>Comfort:</strong> Footwear designed to ensure that you feel great all day.</li>
-            <li><strong>Style:</strong> Trendy, fashionable, and timeless designs to suit every occasion.</li>
-            <li><strong>Customer Service:</strong> We’re here to help you find the perfect fit.</li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/review">Reviews</a></li>
         </ul>
+    </nav>
 
-        <h2>Why Us?</h2>
-        <p>
-            Whether you're looking for the latest trends or classic pieces, ShoeStore has it all. Our online store is designed to make your shopping experience as smooth as possible with detailed product descriptions, fast shipping, and an easy returns process.
-        </p>
-        <a href="/">Go back to Home</a> <!-- Link to navigate back to the home page -->
-    </section>
+    <div class="shop-section">
+        <div class="shop-frame" onclick="toggleInfo('info1')">
+            <div class="shop-title">Shop in Tel Aviv</div>
+            <div class="additional-info">Additional information for Shop 1</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info1" class="info-bubble">
+                Hello, my name is Roman. I am here to help you.<br>
+                <a href="https://wa.me/+972545500857" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Tel%20Aviv&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
 
+        <div class="shop-frame" onclick="toggleInfo('info2')">
+            <div class="shop-title">Shop in Bat Yam</div>
+            <div class="additional-info">Additional information for Shop 2</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info2" class="info-bubble">
+                Hello, my name is Ahmad. I am here to help you.<br>
+                <a href="https://wa.me/your-number" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Bat%20Yam&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+
+        <div class="shop-frame" onclick="toggleInfo('info3')">
+            <div class="shop-title">Shop in Rishon Lezion</div>
+            <div class="additional-info">Additional information for Shop 3</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info3" class="info-bubble">
+                Hello, my name is Viktor. I am here to help you.<br>
+                <a href="https://wa.me/your-number" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Rishon%20Lezion&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+
+        <div class="shop-frame" onclick="toggleInfo('info4')">
+            <div class="shop-title">Shop in Hulon</div>
+            <div class="additional-info">Additional information for Shop 4</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info4" class="info-bubble">
+                Hello, my name is Nadav. I am here to help you.<br>
+                <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
+                <a href="mailto:torato75@gmail.com">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleInfo(id) {
+            const infoBubble = document.getElementById(id);
+            const isVisible = infoBubble.style.display === 'block';
+            // Hide all info bubbles first
+            document.querySelectorAll('.info-bubble').forEach(bubble => bubble.style.display = 'none');
+            // Toggle the clicked one
+            infoBubble.style.display = isVisible ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
