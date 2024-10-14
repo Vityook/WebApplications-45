@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="services.css">
+    <title>Shop Page</title>
+</head>
+<body>
+    <header>
+        <h1>We are here to help</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/review">Reviews</a></li>
+        </ul>
+    </nav>
+
+    <div class="shop-section">
+        <div class="shop-frame" onclick="toggleInfo('info1')">
+            <div class="shop-title">Shop in Tel Aviv</div>
+            <div class="additional-info">Additional information for Shop 1</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info1" class="info-bubble">
+                Hello, my name is Roman. I am here to help you.<br>
+                <a href="https://wa.me/+972545500857" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Tel%20Aviv&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+
+        <div class="shop-frame" onclick="toggleInfo('info2')">
+            <div class="shop-title">Shop in Bat Yam</div>
+            <div class="additional-info">Additional information for Shop 2</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info2" class="info-bubble">
+                Hello, my name is Ahmad. I am here to help you.<br>
+                <a href="https://wa.me/your-number" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Bat%20Yam&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+
+        <div class="shop-frame" onclick="toggleInfo('info3')">
+            <div class="shop-title">Shop in Rishon Lezion</div>
+            <div class="additional-info">Additional information for Shop 3</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info3" class="info-bubble">
+                Hello, my name is Viktor. I am here to help you.<br>
+                <a href="https://wa.me/your-number" target="_blank">WhatsApp</a> | 
+                <a href="mailto:your-email@example.com?subject=Inquiry%20from%20Shop%20in%20Rishon%20Lezion&body=Hello%2C%20I%20have%20a%20question...">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+
+        <div class="shop-frame" onclick="toggleInfo('info4')">
+            <div class="shop-title">Shop in Holon</div>
+            <div class="additional-info">Additional information for Shop 4</div>
+            <div class="info-text">Click for more details</div>
+            <div id="info4" class="info-bubble">
+                Hello, my name is Nadav. I am here to help you.<br>
+                <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
+                <a href="mailto:torato75@gmail.com">Email</a>
+            </div>
+        </div>
+        <div class="opening-hours">
+            <strong>Opening Hours:</strong>
+            <p>Sunday-Thursday: 9:00-18:00</p>
+            <p>Friday: 9:00-15:00</p>
+            <p>Saturday: Closed</p>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <h3>Our shops Location</h3> 
+        <iframe 
+            style="border: 0;" 
+            src="https://www.google.com/maps/embed/v1/search?key=AIzaSyABOGYQgyOxp9GkK30unnMnmS8N6C1tb4Q&q=telaviv+shoes+in+telaviv&zoom=9" 
+            width="600" height="450" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+    </div>
+
+    <script>
+        function toggleInfo(id) {
+            const infoBubble = document.getElementById(id);
+            const isVisible = infoBubble.style.display === 'block';
+            // Hide all info bubbles first
+            document.querySelectorAll('.info-bubble').forEach(bubble => bubble.style.display = 'none');
+            // Toggle the clicked one
+            infoBubble.style.display = isVisible ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
