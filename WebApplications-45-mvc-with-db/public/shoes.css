@@ -1,0 +1,680 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing:inherit;
+    font-family: sans-serif;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+section{
+    width: 100%;
+    height:100vh;
+    background-image: url(images/bubble.jpeg);
+    background-size: cover;
+    background-position: center;
+}
+
+section nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 0 8px rgba(0,0, 0,0.5);
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index:100;
+}
+
+section nav .logo{
+    font-size: 35px;
+    color:rgb(46, 204, 113);
+    margin:5px  0;
+    cursor: pointer;
+    position: relative;
+    left: -4%;
+}
+
+section nav .logo span{
+    font-size: 35px;
+    color:rgb(111, 239, 81);
+    cursor: pointer;
+    position: relative;
+}
+
+
+section nav ul{
+    list-style: none;   
+}
+
+section nav li{
+    display: inline-block;
+    margin: 5px 15px;
+}
+
+section nav ul li a{
+    text-decoration: none;
+    color: black;
+    transition: 0.3s;
+}
+
+section nav ul li a:hover{
+    color:rgb(46, 204, 113);
+}
+
+section nav .icons i{
+    margin: 0 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+section nav .icons i:hover{
+    color: rgb(46, 204, 113);
+}
+
+/* Style for the popup container */
+ section nav .popup-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        justify-content: center;
+        align-items: center;
+    }
+
+/* Style for the popup content */
+section nav  .popup-content {
+    position: relative;
+    width: 400px;
+    height: 500px; /* Adjust as needed */
+    background-size: cover; /* Ensures the image covers the entire popup */
+    background-position: center;
+    background-image: url('images/nature\ background.jpg'); /* The background image */
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white; /* Ensures text visibility */
+}
+
+/* Close button for popup */
+section nav .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+}
+
+/* עיצוב לטופס הכניסה והרישום */
+#popupContainer .popup-content form {
+    display: flex;
+    flex-direction: column; /* סידור אנכי */
+    width: 100%;
+    gap: 15px; /* מרווח בין האלמנטים */
+}
+
+#popupContainer .popup-content input {
+    width: 340px; /* הקטנת השדות ל-80% מרוחב ההורה */
+    padding: 10px; /* ניתן להקטין גם את ה-padding */
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* רקע בהיר */
+    color: #333;
+    font-size: 14px; /* הקטנת גודל הטקסט */
+}
+
+#popupContainer .popup-content button {
+    width: 340px; /* הקטנת הכפתור ל-80% מרוחב ההורה */
+    padding: 10px; /* ניתן להקטין גם את ה-padding */
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#popupContainer .popup-content button:hover {
+    background-color: #218838; /* רקע כהה יותר במעבר עכבר */
+}
+
+/* עיצוב הקישור לרישום והתחברות */
+#popupContainer .popup-content p {
+    text-align: center;
+    color: white;
+}
+
+#popupContainer .popup-content a {
+    color: #ffc107; /* צבע לקישורים */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#popupContainer .popup-content a:hover {
+    color: #fff; /* שינוי צבע במעבר עכבר */
+}
+
+
+section nav  .popup-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+    margin-top: 30px;
+}
+
+
+section .main .main_content{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+section  .main .main_content .main_text h1{
+    font-size: 90px;
+    line-height: 70px;
+    font-family: pyxidium quick;
+    background: linear-gradient(to right,rgb(46, 204, 113),rgb(147, 187, 28));
+    -webkit-text-fill-color: transparent; 
+    -webkit-background-clip:text;
+    position: relative;
+    top: 45px;
+    left: 5%; 
+}
+
+section  .main .main_content .main_text h1 span{
+    font-size: 70px;
+    background: linear-gradient(to right,rgb(46, 204, 113),rgb(147, 187, 28));
+    -webkit-text-fill-color: transparent; 
+    -webkit-background-clip:text;
+}
+
+section  .main .main_content .main_text p{
+    width: 600px;
+    text-align: justify;
+    line-height: 20px;
+    position: relative;
+    top: 80px;
+    left: 5%;
+}
+
+section  .main .main_content .main_text img{
+    width: 630px;
+    position: relative;
+    left: 20px;
+    top: 75px;
+}
+
+section .main .social_icon{
+    position: absolute;
+    top: 50%;
+    left: 98%;
+    font-size: 19;
+    transform: translate(-50%,-50%);
+}
+
+section .main .social_icon i{
+    margin: 8px 0;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+section .main .social_icon i:hover{
+    color:rgb(46, 204, 113);
+}
+
+
+
+.products{
+    width:100%;
+    height: 140vh;
+    padding: 25px 0;
+}
+
+.products h1{
+    margin: 35px 0;
+    font-size: 60px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    background: linear-gradient(to right,rgb(46, 204, 113),rgb(147, 187, 28));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color: transparent; 
+
+}
+
+.products .box .card .image img{
+    width:115px;
+    margin: 1px 0;
+    transition: 0.3s;
+}
+
+.products .box{
+    width:90%;
+    margin:0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap:25px 0;
+}
+
+
+.products .box .card{
+    margin: 6px;
+    width: 220px;
+    height: 300px;
+    box-shadow: 0 0 8px yellowgreen;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px 20px;
+    background-color:rgb(147, 187, 28) ;
+    background: #f6f6f6;
+}
+
+.products .box .card .image{
+    display: felx;
+    align-items:center;
+    justify-content: center;
+}
+.products .box .card:hover .image img{
+    transform: scale(1.2);
+}
+
+.products .box .card .small_card{
+    display:flex;
+    flex-flow: column;
+    position: absolute;
+    margin: 10px 0;
+    transform: translateX(-20px);
+    transition: 0.3s;
+    opacity: 0;
+}
+ .products .box .card:hover .small_card{
+  cursor: pointer;
+  transform: translateX(2px);
+  opacity: 1;
+ }
+
+ .products .box .card .small_card i{
+    width:40px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 40px;
+    margin: 2px 0;
+    border: 2px solid #999999;
+    transition: 0.2s;
+ }
+
+ .products .box .card .small_card i:hover{
+    color:rgb(46, 204, 113);
+}
+ 
+.products .box .card .product_text .stars{
+    color: orange;
+    margin: 14px;
+    cursor: pointer;
+}
+
+.products .box .card .product_text a{
+    color: green;
+    font-size: 16px;
+    padding-left: 4px;
+}
+
+
+.products .box .card .product_text .btn{
+    text-decoration: none;
+    color: white;
+    padding: 10px 25px;
+    background:linear-gradient(rgb(46, 204, 113),rgb(147, 187, 28))
+}
+
+/* Popup Styles */
+.preferred-popup {
+    position: fixed;
+    top: 60px; /* Adjust according to your layout */
+    right: 20px; /* Adjust according to your layout */
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 20px;
+    display: none;
+}
+
+.preferred-popup h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #f4f4f4;
+    padding-bottom: 10px;
+}
+
+/* Preferred shoes container */
+#preferredShoesContainer {
+    max-height: 300px; /* To make it scrollable */
+    overflow-y: auto;
+}
+
+/* Individual shoe in the preferred list */
+#preferredShoesContainer div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+#preferredShoesContainer div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Glow effect for the shoe image */
+@keyframes glowShoe {
+    0% {
+        box-shadow: 0 0 5px #fff;
+    }
+    50% {
+        box-shadow: 0 0 20px #ff4d4d, 0 0 30px #ff4d4d, 0 0 40px #ff4d4d;
+    }
+    100% {
+        box-shadow: 0 0 5px #fff;
+    }
+}
+
+#preferredShoesContainer img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    animation: glowShoe 2s ease-in-out infinite; /* Glow effect */
+}
+
+/* Login Popup Container */
+#popupContainer {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login Popup Content */
+#popupContainer .popup-content {
+    background-image: url('images/nature.jpg'); /* Nature background */
+    background-size: cover;
+    background-position: center;
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px; /* Slightly smaller for a compact look */
+    max-height: 80%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Stronger shadow for more depth */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+}
+
+/* Close Button */
+#popupContainer .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Form Styling */
+#popupContainer .popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between the elements */
+}
+
+#popupContainer .popup-content label {
+    font-size: 14px;
+    font-weight: bold;
+    color: white; /* White labels to contrast with background */
+}
+
+#popupContainer .popup-content input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 16px;
+}
+
+#popupContainer .popup-content button {
+    padding: 12px;
+    background-color: #28a745; /* Green button for login */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#popupContainer .popup-content button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Link Styling */
+#popupContainer .popup-content p {
+    text-align: center;
+    color: white;
+}
+
+#popupContainer .popup-content a {
+    color: #ffc107; /* Yellow link */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#popupContainer .popup-content a:hover {
+    color: #fff; /* Turns white on hover */
+}
+
+/* Heading Styling */
+#popupContainer .popup-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 24px;
+}
+
+
+
+/* Shoe name */
+#preferredShoesContainer p {
+    margin: 0;
+    font-size: 1rem;
+    flex: 1;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Remove button */
+.remove-shoe {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-shoe:hover {
+    background-color: #e63946;
+}
+
+/* Heart icon styles */
+.with-preferred {
+    position: relative;
+    color: #ff4d4d;
+}
+
+.with-preferred::after {
+    content: attr(data-count);
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Cart Popup Overlay */
+.popup-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker semi-transparent background */
+  }
+  
+  /* Cart Popup Content */
+  .popup-content {
+    background-color: #f8f9fa;  /* Light grey background for a modern look */
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 15px;  /* Slightly more rounded corners */
+    width: 40%;  /* Slightly smaller width for a cleaner look */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Stronger box shadow for a modern pop */
+    position: relative;
+    max-height: 80vh; /* Limit the height of the popup to the viewport */
+    display: flex;
+    flex-direction: column; /* Ensure proper layout */
+  }
+  
+  /* Scrollable Area for Cart Items */
+#cartItems {
+    max-height: 200px;  /* Limit the height of the cart items container */
+    overflow-y: auto;   /* Enable vertical  if items exceed the max height */
+    background-image: url('images/nature.jpg');  /* Set the same background image */
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center; /* Center the background image */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;  /* Space before total and checkout */
+  }
+  
+  
+  /* Cart Item Styling */
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px; /* Increased spacing for cleaner separation */
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Image Styling for Cart Items */
+  .cart-item-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;  /* Increased margin for better spacing */
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Add border for a cleaner image presentation */
+  }
+  
+  /* Cart Item Text Styling */
+  .cart-item p {
+    margin: 0;
+    flex-grow: 1;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;  /* Darker text color for better readability */
+  }
+  
+  /* Remove Button */
+  .remove-item {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  .remove-item:hover {
+    background-color: #c82333;
+  }
+  
+  /* Cart Total Styling */
+  #cartTotal {
+    font-weight: bold;
+    font-size: 22px;  /* Slightly larger font */
+    color: #28a745;   /* Use green color for the total amount */
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  /* Checkout Button */
+  #checkoutBtn {
+    display: block;
+    margin: 20px auto 0 auto;
+    width: 100%;
+    max-width: 220px;
+    background-color: #28a745; /* Green for Checkout button */
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #checkoutBtn:hover {
+    background-color: #218838;
+  }
+  
+  /* Close Button Styling */
+  .close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+  }
+  
+  .close:hover {
+    color: #000;
+  }
+  
