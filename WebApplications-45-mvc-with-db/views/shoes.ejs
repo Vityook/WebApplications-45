@@ -56,7 +56,7 @@
                     </form>
                     <div id="registerForm" style="display: none;">
                         <h2>Register</h2>
-                        <form>
+                        <form id="registerFormSubmit">
                             <label for="reg-username">Username:</label>
                             <input type="text" id="reg-username" name="username" required>
                             <label for="reg-email">Email:</label>
@@ -151,221 +151,150 @@
     </div>
 
     <script>
-        const loginIcon = document.getElementById('user-icon');
-        const popupContainer = document.getElementById('popupContainer');
-        const closePopup = document.getElementById('closePopup');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const showRegisterForm = document.getElementById('showRegisterForm');
-        const showLoginForm = document.getElementById('showLoginForm');
-
-        function showPopup() {
-            if (popupContainer) {
-                popupContainer.style.display = 'flex';
+         // Utility functions
+         function showPopup(popupElement) {
+            if (popupElement) {
+                popupElement.style.display = 'block';
             }
         }
 
-        function hidePopup() {
-            if (popupContainer) {
-                popupContainer.style.display = 'none';
+        function hidePopup(popupElement) {
+            if (popupElement) {
+                popupElement.style.display = 'none';
             }
         }
 
-        if (loginIcon) {
-            loginIcon.addEventListener('click', showPopup);
-        }
+        // Setup navigation
+        function setupNavigation() {
+            const navLinks = {
+                'homeLink': '/',
+                'aboutLink': '/about',
+                'reviewLink': '/review',
+                'servicesLink': '/services'
+            };
 
-        if (closePopup) {
-            closePopup.addEventListener('click', hidePopup);
-        }
-
-        window.addEventListener('click', (event) => {
-            if (event.target === popupContainer) {
-                hidePopup();
+            for (const [id, href] of Object.entries(navLinks)) {
+                const link = document.getElementById(id);
+                if (link) {
+                    link.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        if (id === 'homeLink') {
+                            window.location.reload();
+                        } else {
+                            window.location.href = href;
+                        }
+                    });
+                }
             }
-        });
+        }
 
-        if (showRegisterForm) {
-            showRegisterForm.addEventListener('click', (e) => {
-                e.preventDefault();
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
+        // Login and registration handling
+        function setupAuthForms() {
+            const loginIcon = document.getElementById('user-icon');
+            const popupContainer = document.getElementById('popupContainer');
+            const closePopup = document.getElementById('closePopup');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const showRegisterForm = document.getElementById('showRegisterForm');
+            const showLoginForm = document.getElementById('showLoginForm');
+
+            if (loginIcon) {
+                loginIcon.addEventListener('click', () => showPopup(popupContainer));
+            }
+
+            if (closePopup) {
+                closePopup.addEventListener('click', () => hidePopup(popupContainer));
+            }
+
+            window.addEventListener('click', (event) => {
+                if (event.target === popupContainer) {
+                    hidePopup(popupContainer);
+                }
             });
-        }
 
-        if (showLoginForm) {
-            showLoginForm.addEventListener('click', (e) => {
-                e.preventDefault();
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-            });
-        }
-
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            axios.post('/auth/login', { email, password })
-                .then(response => {
-                    alert('Login successful!');
-                    window.location.href = '/'; // Redirect to home page
-                })
-                .catch(error => {
-                    alert('Login failed: ' + (error.response ? error.response.data : error.message));
+            if (showRegisterForm) {
+                showRegisterForm.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
                 });
-        });
+            }
 
-        const registerFormSubmit = document.getElementById('registerFormSubmit');
-        if (registerFormSubmit) {
-            registerFormSubmit.addEventListener('submit', function(e) {
+            if (showLoginForm) {
+                showLoginForm.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                });
+            }
+
+            loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const username = document.getElementById('reg-username').value;
-                const email = document.getElementById('reg-email').value;
-                const password = document.getElementById('reg-password').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
                 
-                axios.post('/auth/register', { username, email, password })
+                axios.post('/auth/login', { email, password })
                     .then(response => {
-                        alert('Registration successful! Please log in.');
-                        registerForm.style.display = 'none';
-                        loginForm.style.display = 'block';
+                        alert('Login successful!');
+                        window.location.reload();
                     })
                     .catch(error => {
-                        alert('Registration failed: ' + (error.response ? error.response.data : error.message));
+                        alert('Login failed: ' + (error.response ? error.response.data : error.message));
                     });
             });
-        }
 
-            document.addEventListener('DOMContentLoaded', function() {
-        const adminButton = document.querySelector('.admin-button');
-        if (adminButton) {
-            // Check if we have user data available
-            const userDataElement = document.getElementById('userData');
-            if (userDataElement) {
-                const userData = JSON.parse(userDataElement.textContent);
-                if (!userData.isAdmin) {
-                    adminButton.style.display = 'none';
-                }
-            } else {
-                // If we can't verify admin status, hide the button
-                adminButton.style.display = 'none';
+            const registerFormSubmit = document.getElementById('registerFormSubmit');
+            if (registerFormSubmit) {
+                registerFormSubmit.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('reg-username').value;
+                    const email = document.getElementById('reg-email').value;
+                    const password = document.getElementById('reg-password').value;
+                    
+                    axios.post('/auth/register', { username, email, password })
+                        .then(response => {
+                            alert('Registration successful! Please log in.');
+                            registerForm.style.display = 'none';
+                            loginForm.style.display = 'block';
+                        })
+                        .catch(error => {
+                            alert('Registration failed: ' + (error.response ? error.response.data : error.message));
+                        });
+                });
             }
         }
-    });
-    </script>
-    <script id="userData" type="application/json">
-        <%- JSON.stringify({ isAdmin: user && user.role === 'admin' }) %>
-    </script>
 
-    <script>
-        // Get elements
-
-        const login_Icon = document.getElementById('user-icon');
-        const popup_Container = document.getElementById('popupContainer');
-        const close_Popup = document.getElementById('closePopup');
-        const login_Form = document.getElementById('loginForm');
-        const register_Form = document.getElementById('registerForm');
-        const showRegister_Form = document.getElementById('showRegisterForm');
-        const showLogin_Form = document.getElementById('showLoginForm');
-        // Show the popup when the user icon is clicked
-        loginIcon.addEventListener('click', () => {
-            popupContainer.style.display = 'flex';
-        });
-    
-        // Hide the popup when the close button is clicked
-        closePopup.addEventListener('click', () => {
-            popupContainer.style.display = 'none';
-        });
-    
-        // Hide the popup if the user clicks outside the popup content
-        window.addEventListener('click', (event) => {
-            if (event.target === popupContainer) {
-                popupContainer.style.display = 'none';
-            }
-        });
-    
-        // Show registration form when 'Register here' is clicked
-        showRegisterForm.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-        });
-    
-        // Show login form when 'Login here' is clicked
-        showLoginForm.addEventListener('click', (e) => {
-            e.preventDefault();
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        });
-    
-        // about page js // Get references to elements
-        const aboutLink = document.getElementById('aboutLink');
-
-        //services js //
-        const servicesLink = document.getElementById('servicesLink');
-    
-        // Event listener for the "About" link
-        aboutLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior
-    
-            // Redirect to the About page
-            window.location.href = '/about';
-        });
-    
-    
-    
-        // about review
-         // Get references to elements
-         const reviewLink = document.getElementById('reviewLink');
-    
-         // Event listener for the "About" link
-         reviewLink.addEventListener('click', (event) => {
-             event.preventDefault(); // Prevent default link behavior
-     
-             // Redirect to the About page
-            window.location.href = '/review';
-         });
+        // Preferred shoes functionality
+        function setupPreferredShoes() {
+            const hearts = document.querySelectorAll('.fa-heart');
+            const preferredShoesContainer = document.getElementById('preferredShoesContainer');
+            const heartIcon = document.getElementById('heartIcon');
+            const preferredShoesPopup = document.getElementById('preferredShoesPopup');
+            let preferredShoes = [];
             
-    
-         ////////////
-         document.addEventListener('DOMContentLoaded', () => {
-            const hearts = document.querySelectorAll('.fa-heart'); // Select all heart icons on products
-            const preferredShoesContainer = document.getElementById('preferredShoesContainer'); // Container for favorite shoes
-            const heartIcon = document.getElementById('heartIcon'); // Heart icon at the top
-            const preferredShoesPopup = document.getElementById('preferredShoesPopup'); // Popup for preferred shoes
-            let preferredShoes = []; // Array to hold preferred shoes
-            
-            // Add click event listener for each heart icon (on each shoe)
             hearts.forEach((heart) => {
                 heart.addEventListener('click', function () {
-                    const productCard = this.closest('.card'); // Get the clicked product card
-                    const productName = productCard.querySelector('h2').innerText; // Get product name
-                    const productImage = productCard.querySelector('img').src; // Get product image
+                    const productCard = this.closest('.card');
+                    const productName = productCard.querySelector('h2').innerText;
+                    const productImage = productCard.querySelector('img').src;
         
-                    // Check if the shoe is already in the preferredShoes array by comparing name and image
                     const existingShoe = preferredShoes.find(shoe => shoe.name === productName && shoe.image === productImage);
                     if (!existingShoe) {
-                        // Add to preferred shoes array if not already added
                         preferredShoes.push({ name: productName, image: productImage });
-                        
-                        // Update heart icon to show number of preferred shoes
                         heartIcon.setAttribute('data-count', preferredShoes.length);
-                        heartIcon.classList.add('with-preferred'); // Add class to style it differently if needed
+                        heartIcon.classList.add('with-preferred');
                     }
                 });
             });
         
-            // Show preferred shoes popup when heart icon is clicked
             heartIcon.addEventListener('click', () => {
-                showPreferredShoes(); // Render the preferred shoes
-                preferredShoesPopup.style.display = 'block'; // Ensure popup stays visible
+                showPreferredShoes();
+                showPopup(preferredShoesPopup);
             });
         
-            // Function to re-render the preferred shoes popup
             function showPreferredShoes() {
-                preferredShoesContainer.innerHTML = ''; // Clear current list
+                preferredShoesContainer.innerHTML = '';
         
-                // Repopulate the preferred shoes in the popup
                 preferredShoes.forEach((shoe, index) => {
                     const shoeDiv = document.createElement('div');
                     shoeDiv.innerHTML = `
@@ -376,134 +305,123 @@
                     preferredShoesContainer.appendChild(shoeDiv);
                 });
         
-                // Add event listener for remove buttons
                 const removeButtons = document.querySelectorAll('.remove-shoe');
                 removeButtons.forEach(button => {
                     button.addEventListener('click', (e) => {
                         const shoeIndex = e.target.getAttribute('data-index');
-                        preferredShoes.splice(shoeIndex, 1); // Remove the shoe from the array
+                        preferredShoes.splice(shoeIndex, 1);
         
-                        // Update the heart icon count
                         heartIcon.setAttribute('data-count', preferredShoes.length);
                         if (preferredShoes.length === 0) {
-                            heartIcon.classList.remove('with-preferred'); // Remove style if no favorites
+                            heartIcon.classList.remove('with-preferred');
                         }
         
-                        // Re-render the preferred shoes popup without closing it
-                        showPreferredShoes(); // Refresh the popup content
+                        showPreferredShoes();
                     });
                 });
             }
         
-            // Close the popup if user clicks outside of it, but not when removing a shoe
             window.addEventListener('click', (event) => {
-                // Check if the click was outside the popup and not on the heart icon or remove button
                 if (event.target !== heartIcon && !preferredShoesPopup.contains(event.target) && !event.target.classList.contains('remove-shoe')) {
-                    preferredShoesPopup.style.display = 'none';
+                    hidePopup(preferredShoesPopup);
                 }
             });
-        });
-        
-        // home click
-        document.addEventListener('DOMContentLoaded', () => {
-            const homeLink = document.getElementById('homeLink'); // Get the "Home" <a> element
-        
-            // Add a click event listener to the "Home" link
-            homeLink.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the default link behavior
-                window.location.reload(); // Refresh the current page
+        }
+
+        // Cart functionality
+        function setupCart() {
+            let cartItemsArray = [];
+            
+            const cartIcon = document.getElementById("cartIcon");
+            const cartPopup = document.getElementById("cartPopup");
+            const closeCartPopup = document.getElementById("closeCartPopup");
+            const cartItems = document.getElementById("cartItems");
+            const cartTotal = document.getElementById("cartTotal");
+            
+            const addToCartBtns = document.querySelectorAll(".addToCartBtn");
+            
+            addToCartBtns.forEach(button => {
+              button.addEventListener("click", function(event) {
+                event.preventDefault();
+            
+                const itemName = this.getAttribute("data-name");
+                const itemPrice = parseFloat(this.getAttribute("data-price"));
+                const itemImage = this.getAttribute("data-image");
+            
+                cartItemsArray.push({ name: itemName, price: itemPrice, image: itemImage });
+            
+                updateCart();
+              });
             });
+            
+            function updateCart() {
+              cartItems.innerHTML = "";
+            
+              let total = 0;
+              cartItemsArray.forEach((item, index) => {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("cart-item");
+                itemElement.innerHTML = `
+                  <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                  <p>${item.name} - $${item.price}</p>
+                  <button class="remove-item" data-index="${index}">Remove</button>
+                `;
+                cartItems.appendChild(itemElement);
+                total += item.price;
+              });
+            
+              cartTotal.textContent = "$" + total.toFixed(2);
+            
+              const removeButtons = document.querySelectorAll(".remove-item");
+              removeButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                  const index = parseInt(this.getAttribute("data-index"));
+                  removeFromCart(index);
+                });
+              });
+            }
+            
+            function removeFromCart(index) {
+              cartItemsArray.splice(index, 1);
+              updateCart();
+            }
+            
+            cartIcon.onclick = () => showPopup(cartPopup);
+            closeCartPopup.onclick = () => hidePopup(cartPopup);
+            
+            window.onclick = function (event) {
+              if (event.target == cartPopup) {
+                hidePopup(cartPopup);
+              }
+            }
+        }
+
+        // Initialize all functionalities
+        document.addEventListener('DOMContentLoaded', () => {
+            setupNavigation();
+            setupAuthForms();
+            setupPreferredShoes();
+            setupCart();
         });
-    
-    
-        /////////////////////////
-    // Initialize an array to store cart items
-    let cartItemsArray = [];
-    
-    // Get elements related to the cart popup
-    const cartIcon = document.getElementById("cartIcon");
-    const cartPopup = document.getElementById("cartPopup");
-    const closeCartPopup = document.getElementById("closeCartPopup");
-    const cartItems = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-    
-    // Get all Add to Cart buttons
-    const addToCartBtns = document.querySelectorAll(".addToCartBtn");
-    
-    // Add event listeners to each "Add to Cart" button
-    addToCartBtns.forEach(button => {
-      button.addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent default anchor behavior
-    
-        // Get product details from data attributes
-        const itemName = this.getAttribute("data-name");
-        const itemPrice = parseFloat(this.getAttribute("data-price"));
-        const itemImage = this.getAttribute("data-image");
-    
-        // Add item to the cart array
-        cartItemsArray.push({ name: itemName, price: itemPrice, image: itemImage });
-    
-        // Update the cart popup
-        updateCart();
-      });
-    });
-    
-    // Function to update the cart popup
-    function updateCart() {
-      // Clear existing items in the popup
-      cartItems.innerHTML = "";
-    
-      // Add each item to the cart popup
-      let total = 0;
-      cartItemsArray.forEach((item, index) => {
-        const itemElement = document.createElement("div");
-        itemElement.classList.add("cart-item");
-        itemElement.innerHTML = `
-          <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-          <p>${item.name} - $${item.price}</p>
-          <button class="remove-item" data-index="${index}">Remove</button>
-        `;
-        cartItems.appendChild(itemElement);
-        total += item.price;
-      });
-    
-      // Update the total price in the popup
-      cartTotal.textContent = "$" + total.toFixed(2);
-    
-      // Add event listeners for the remove buttons
-      const removeButtons = document.querySelectorAll(".remove-item");
-      removeButtons.forEach(button => {
-        button.addEventListener("click", function() {
-          const index = parseInt(this.getAttribute("data-index"));
-          removeFromCart(index);
+
+        // Admin button visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminButton = document.querySelector('.admin-button');
+            if (adminButton) {
+                const userDataElement = document.getElementById('userData');
+                if (userDataElement) {
+                    const userData = JSON.parse(userDataElement.textContent);
+                    if (!userData.isAdmin) {
+                        adminButton.style.display = 'none';
+                    }
+                } else {
+                    adminButton.style.display = 'none';
+                }
+            }
         });
-      });
-    }
-    
-    // Function to remove an item from the cart
-    function removeFromCart(index) {
-      cartItemsArray.splice(index, 1); // Remove the item at the given index
-      updateCart(); // Update the cart popup after removal
-    }
-    
-    // Show the cart popup when the cart icon is clicked
-    cartIcon.onclick = function () {
-      cartPopup.style.display = "block";
-    };
-    
-    // Close the cart popup when the close button is clicked
-    closeCartPopup.onclick = function () {
-      cartPopup.style.display = "none";
-    };
-    
-    // Close the popup when clicking outside of the popup content
-    window.onclick = function (event) {
-      if (event.target == cartPopup) {
-        cartPopup.style.display = "none";
-      }
-    }
     </script>
-
-
+    <script id="userData" type="application/json">
+        <%- JSON.stringify({ isAdmin: user && user.role === 'admin' }) %>
+    </script>
 </body>
 </html>
