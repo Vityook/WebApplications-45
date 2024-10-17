@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %></title>
+    <link rel="stylesheet" href="/shoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="box">
+        <div class="products" id="Prod">
+            <div class="box">
+                <div class="card">
+                    <div class="small_card">
+                    </div>
+    
+                    <div class="image">
+                        <% if (product.image && product.image.url) { %>
+                            <img src="<%= product.image.url %>" alt="<%= product.name %>">
+                        <% } else { %>
+                            <img src="/images/placeholder.png" alt="<%= product.name %>">
+                        <% } %>
+                    </div>
+                   
+                    <div class="product_text">
+                        <h2><%= product.name %></h2>
+                        <h3><%= product.price %></h3>
+                        <div class="stars">
+                            <% for (let i = 0; i < Math.floor(product.rating); i++) { %>
+                                <i class="fa-solid fa-star"></i>
+                            <% } %>
+                            <% if (product.rating % 1 !== 0) { %>
+                                <i class="fa-solid fa-star-half-alt"></i>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

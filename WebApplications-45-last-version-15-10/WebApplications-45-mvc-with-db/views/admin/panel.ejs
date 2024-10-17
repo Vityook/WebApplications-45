@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <a href="/" class="home-button">Return to Home</a>
+    <h2>Create New User</h2>
+    <form id="createUserForm">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <select name="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Create User</button>
+    </form>
+
+    <h2>User Management</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.username %></td>
+                    <td><%= user.email %></td>
+                    <td>
+                        <select class="role-select" data-user-id="<%= user._id %>">
+                            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+                            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="delete-user" data-user-id="<%= user._id %>">Delete</button>
+                        <button class="reset-password" data-user-id="<%= user._id %>">Reset Password</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<h2>Purchase History</h2>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Items</th>
+            <th>Total Amount</th>
+            <th>Purchase Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ofek</td>
+            <td>3 items (Nike, Nike, Adidas)</td>
+            <td>$1200</td>
+            <td>15-10-2024</td>
+        </tr>
+        <tr>
+            <td>Viktor</td>
+            <td>3 items (Nike, Nike, Nike)</td>
+            <td>$1000</td>
+            <td>17-10-2024</td>
+        </tr>
+        <tr>
+            <td>Israel Israeli</td>
+            <td>3 items (New Balance, Nike, Adidas)</td>
+            <td>$700</td>
+            <td>10-09-2024</td>
+        </tr>
+        <tr>
+            <td>Nadav</td>
+            <td>3 items (Laptop, Mouse, Keyboard)</td>
+            <td>$1200</td>
+            <td>29-04-2024</td>
+        </tr>
+        <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const roleSelects = document.querySelectorAll('.role-select');
+            const deleteButtons = document.querySelectorAll('.delete-user');
+            const createUserForm = document.getElementById('createUserForm');
+            const resetButtons = document.querySelectorAll('.reset-password');
+    
+            roleSelects.forEach(select => {
+                select.addEventListener('change', async (event) => {
+                    const userId = event.target.dataset.userId;
+                    const newRole = event.target.value;
+                    try {
+                        const response = await fetch('/admin/update-user-role', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId, newRole })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            alert('User role updated successfully');
+                        } else {
+                            alert('Failed to update user role');
+                        }
+                    } catch (error) {
+                        console.error('Error updating user role:', error);
+                        alert('Error updating user role');
+                    }
+                });
+            });
+    
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    if (confirm('Are you sure you want to delete this user?')) {
+                        const userId = event.target.dataset.userId;
+                        try {
+                            const response = await fetch(`/admin/delete-user/${userId}`, {
+                                method: 'DELETE'
+                            });
+                            const data = await response.json();
+                            if (data.success) {
+                                alert('User deleted successfully');
+                                event.target.closest('tr').remove();
+                            } else {
+                                alert('Failed to delete user');
+                            }
+                        } catch (error) {
+                            console.error('Error deleting user:', error);
+                            alert('Error deleting user');
+                        }
+                    }
+                });
+            });
+    
+            createUserForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const formData = new FormData(createUserForm);
+                const userData = Object.fromEntries(formData.entries());
+    
+                try {
+                    console.log('Sending user data:', userData);
+                    const response = await fetch('/admin/create-user', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(userData)
+                    });
+                    const data = await response.json();
+                    console.log('Server response:', data);
+                    if (data.success) {
+                        alert('User created successfully');
+                        location.reload();
+                    } else {
+                        alert(`Failed to create user: ${data.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error creating user:', error);
+                    alert(`Error creating user: ${error.message}`);
+                }
+            });
+    
+            resetButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    const userId = event.target.dataset.userId;
+                    const newPassword = prompt("Enter new password for the user:");
+                    if (newPassword) {
+                        console.log('Attempting to reset password for user:', userId);
+                        console.log('New password (client-side):', newPassword);
+                        try {
+                            const response = await fetch(`/admin/reset-password/${userId}`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ newPassword })
+                            });
+                            const data = await response.json();
+                            console.log('Server response:', data);
+                            if (data.success) {
+                                alert('Password reset successfully');
+                            } else {
+                                alert('Failed to reset password: ' + (data.message || 'Unknown error'));
+                            }
+                        } catch (error) {
+                            console.error('Error resetting password:', error);
+                            alert('Error resetting password');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
