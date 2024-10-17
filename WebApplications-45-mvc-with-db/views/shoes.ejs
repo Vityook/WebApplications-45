@@ -26,9 +26,9 @@
             </ul>
 
             <div class="icons">
-                <i class="fa-solid fa-heart" id="heartIcon"></i> 
-                <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
                 <% if (isAuthenticated) { %>
+                    <i id="heartIcon" class="fa-solid fa-heart" ></i> 
+                    <i id="cartIcon" class="fa-solid fa-cart-shopping" ></i>
                     <a href="/auth/logout"><i class="fa-solid fa-sign-out-alt"></i></a>
                 <% } else { %>
                     <i class="fa-solid fa-user" id="user-icon"></i>
@@ -40,10 +40,10 @@
             <input type="text" id="searchInput" placeholder="Search for shoes by name...">
         </div> -->
 
-        <div id="preferredShoesPopup" class="preferred-popup" style="display: none;">
+        <!-- <div id="preferredShoesPopup" class="preferred-popup" style="display: none;">
             <h2>Favorites</h2>
             <div id="preferredShoesContainer"></div>
-        </div>
+        </div> -->
         <!-- Login and Register Popup -->
         <% if (!isAuthenticated) { %>
             <div class="popup-container" id="popupContainer">
@@ -75,24 +75,29 @@
             </div>
         <% } %>
 
-        <!-- Cart Popup Modal (initially hidden) -->
-        <div id="cartPopup" class="popup-container" style="display: none;">
-            <div class="popup-content">
-                <span class="close" id="closeCartPopup">&times;</span>
-                <h2>Your Shopping Cart</h2>
-                <div id="cartItems">
-                    <!-- Cart items will be dynamically inserted here -->
+        <!-- Cart Popup Modal -->
+        <% if (isAuthenticated) { %>
+            <div id="cartPopup" class="popup-container" style="display: none;">
+                <div class="popup-content">
+                    <span class="close" id="closeCartPopup">&times;</span>
+                    <h2>Your Shopping Cart</h2>
+                    <div id="cartItems">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                    <p>Total: <span id="cartTotal">0 </span></p>
+                    <button id="checkoutBtn">Proceed to Checkout</button>
                 </div>
-                <p>Total: <span id="cartTotal">0 </span></p>
-                <button id="checkoutBtn">Proceed to Checkout</button>
             </div>
-        </div>
+        <% } %>
 
         <!-- Preferred Shoes Popup (initially hidden) -->
-        <div id="preferredShoesPopup" class="preferred-popup" style="display: none;">
-            <h2>Favorites</h2>
-            <div id="preferredShoesContainer"></div>
-        </div>
+        <% if (isAuthenticated) { %>
+            <div id="preferredShoesPopup" class="preferred-popup" style="display: none;">
+                <span class="close" id="closepreferredPopup">&times;</span>
+                <h2>Favorites</h2>
+                <div id="preferredShoesContainer"></div>
+            </div>
+        <% } %>
 
         <div class="main" id="Home">
             <div class="main_content">
@@ -169,451 +174,10 @@
         </div>
     </div>
 
-    <script>
-         // Utility functions
-         function showPopup(popupElement) {
-            if (popupElement) {
-                popupElement.style.display = 'block';
-            }
-        }
-
-        function hidePopup(popupElement) {
-            if (popupElement) {
-                popupElement.style.display = 'none';
-            }
-        }
-
-        // Setup navigation
-        function setupNavigation() {
-            const navLinks = {
-                'homeLink': '/',
-                'aboutLink': '/about',
-                'reviewLink': '/review',
-                'servicesLink': '/services'
-            };
-
-            for (const [id, href] of Object.entries(navLinks)) {
-                const link = document.getElementById(id);
-                if (link) {
-                    link.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        if (id === 'homeLink') {
-                            window.location.reload();
-                        } else {
-                            window.location.href = href;
-                        }
-                    });
-                }
-            }
-        }
-
-        // Login and registration handling
-        function setupAuthForms() {
-            const loginIcon = document.getElementById('user-icon');
-            const popupContainer = document.getElementById('popupContainer');
-            const closePopup = document.getElementById('closePopup');
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const showRegisterForm = document.getElementById('showRegisterForm');
-            const showLoginForm = document.getElementById('showLoginForm');
-            const loginPrompts = document.querySelectorAll('.loginPrompt');
-
-            if (loginIcon) {
-                loginIcon.addEventListener('click', () => showPopup(popupContainer));
-            }
-
-            if (closePopup) {
-                closePopup.addEventListener('click', () => hidePopup(popupContainer));
-            }
-
-            window.addEventListener('click', (event) => {
-                if (event.target === popupContainer) {
-                    hidePopup(popupContainer);
-                }
-            });
-
-            if (showRegisterForm) {
-                showRegisterForm.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    loginForm.style.display = 'none';
-                    registerForm.style.display = 'block';
-                });
-            }
-
-            if (showLoginForm) {
-                showLoginForm.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    registerForm.style.display = 'none';
-                    loginForm.style.display = 'block';
-                });
-            }
-
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                axios.post('/auth/login', { email, password })
-                    .then(response => {
-                        alert('Login successful!');
-                        window.location.reload();
-                    })
-                    .catch(error => {
-                        alert('Login failed: ' + (error.response ? error.response.data : error.message));
-                    });
-            });
-
-            const registerFormSubmit = document.getElementById('registerFormSubmit');
-            if (registerFormSubmit) {
-                registerFormSubmit.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const username = document.getElementById('reg-username').value;
-                    const email = document.getElementById('reg-email').value;
-                    const password = document.getElementById('reg-password').value;
-                    
-                    axios.post('/auth/register', { username, email, password })
-                        .then(response => {
-                            alert('Registration successful! Please log in.');
-                            registerForm.style.display = 'none';
-                            loginForm.style.display = 'block';
-                        })
-                        .catch(error => {
-                            alert('Registration failed: ' + (error.response ? error.response.data : error.message));
-                        });
-                });
-            }
-        }
-
-        function setupOrderHistory() {
-            const orderHistoryLink = document.getElementById('orderHistoryLink');
-            const orderHistoryPopup = document.getElementById('orderHistoryPopup');
-            const closeOrderHistoryPopup = document.getElementById('closeOrderHistoryPopup');
-            const orderHistoryContainer = document.getElementById('orderHistoryContainer');
-
-            if (orderHistoryLink) {
-                orderHistoryLink.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    fetchAndDisplayOrderHistory();
-                    showPopup(orderHistoryPopup);
-                });
-            }
-
-            if (closeOrderHistoryPopup) {
-                closeOrderHistoryPopup.addEventListener('click', () => hidePopup(orderHistoryPopup));
-            }
-
-            function fetchAndDisplayOrderHistory() {
-                fetch('/order-history')
-                    .then(response => response.json())
-                    .then(data => {
-                        orderHistoryContainer.innerHTML = '';
-                        if (data.success) {
-                            data.orders.forEach(order => {
-                                const orderElement = document.createElement('div');
-                                orderElement.classList.add('order-item');
-                                orderElement.innerHTML = `
-                                    <h3>Order ID: ${order._id}</h3>
-                                    <p>Date: ${new Date(order.createdAt).toLocaleDateString()}</p>
-                                    <p>Total: $${order.totalAmount.toFixed(2)}</p>
-                                    <p>Status: ${order.status}</p>
-                                    <ul>
-                                        ${order.items.map(item => `<li>${item.shoe.name} - $${item.shoe.price}</li>`).join('')}
-                                    </ul>
-                                `;
-                                orderHistoryContainer.appendChild(orderElement);
-                            });
-                        } else {
-                            orderHistoryContainer.innerHTML = '<p>Failed to retrieve order history.</p>';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        orderHistoryContainer.innerHTML = '<p>An error occurred while retrieving the order history.</p>';
-                    });
-            }
-        }
-
-        // Preferred shoes functionality
-        function setupPreferredShoes() {
-            const hearts = document.querySelectorAll('.fa-heart');
-            const heartIcon = document.getElementById('heartIcon');
-            const preferredShoesPopup = document.getElementById('preferredShoesPopup');
-            const preferredShoesContainer = document.getElementById('preferredShoesContainer');
-
-            hearts.forEach((heart) => {
-                heart.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    console.log('Heart clicked');
-                    const productId = this.getAttribute('data-product-id');
-                    console.log('Product ID:', productId);
-                    toggleFavorite(productId);
-                });
-            });
-
-            heartIcon.addEventListener('click', () => {
-                console.log('Heart icon clicked');
-                fetchAndDisplayFavorites();
-                showPopup(preferredShoesPopup);
-            });
-
-            function toggleFavorite(productId) {
-                console.log('Toggling favorite for product:', productId);
-                fetch('/toggle-favorite', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ productId }),
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Toggle favorite response:', data);
-                    if (data.success) {
-                        const heartIcon = document.querySelector(`.fa-heart[data-product-id="${productId}"]`);
-                        heartIcon.classList.toggle('active');
-                        updateFavoritesCount();
-                    } else {
-                        console.error('Failed to toggle favorite:', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error toggling favorite:', error);
-                    alert('Error toggling favorite. Please try again.');
-                });
-            }       
-
-            function fetchAndDisplayFavorites() {
-                fetch('/get-favorites')
-                .then(response => response.json())
-                .then(data => {
-                    preferredShoesContainer.innerHTML = '';
-                    data.favorites.forEach(shoe => {
-                        const shoeDiv = document.createElement('div');
-                        shoeDiv.innerHTML = `
-                            <img src="${shoe.imageSrc}" alt="${shoe.name}">
-                            <p>${shoe.name}</p>
-                            <button class="remove-shoe" data-id="${shoe._id}">Remove</button>
-                        `;
-                        preferredShoesContainer.appendChild(shoeDiv);
-                    });
-                    setupRemoveFavoriteButtons();
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-            function setupRemoveFavoriteButtons() {
-                const removeButtons = document.querySelectorAll('.remove-shoe');
-                removeButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const shoeId = e.target.getAttribute('data-id');
-                        toggleFavorite(shoeId);
-                        e.target.closest('div').remove();
-                        updateFavoritesCount();
-                    });
-                });
-            }
-
-            function updateFavoritesCount() {
-                fetch('/get-favorites-count')
-                .then(response => response.json())
-                .then(data => {
-                    heartIcon.setAttribute('data-count', data.count);
-                    heartIcon.classList.toggle('with-preferred', data.count > 0);
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-            updateFavoritesCount();
-        }
-
-        // Cart functionality
-        function setupCart() {
-            const cartIcon = document.getElementById("cartIcon");
-            const cartPopup = document.getElementById("cartPopup");
-            const closeCartPopup = document.getElementById("closeCartPopup");
-            const cartItems = document.getElementById("cartItems");
-            const cartTotal = document.getElementById("cartTotal");
-            const addToCartBtns = document.querySelectorAll(".addToCartBtn");
-
-            addToCartBtns.forEach(button => {
-                button.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    console.log('Add to cart button clicked');
-                    const productId = this.getAttribute("data-id");
-                    console.log('Product ID:', productId);
-                    addToCart(productId);
-                });
-            });
-
-            function addToCart(productId) {
-                fetch('/cart/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ productId: productId })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            throw new Error('Please log in to add items to your cart');
-                        }
-                        throw new Error('Failed to add item to cart');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    alert('Item added to cart successfully');
-                    // Update cart display if needed
-                })
-                .catch(error => {
-                    alert(error.message);
-                    if (error.message === 'Please log in to add items to your cart') {
-                        // Redirect to login page or show login modal
-                        // window.location.href = '/login';
-                    }
-                });
-            }  
-
-            function updateCartDisplay() {
-                fetch('/get-cart')
-                .then(response => response.json())
-                .then(data => {
-                    cartItems.innerHTML = '';
-                    let total = 0;
-                    data.items.forEach(item => {
-                        const itemElement = document.createElement("div");
-                        itemElement.classList.add("cart-item");
-                        itemElement.innerHTML = `
-                            <img src="${item.imageSrc}" alt="${item.name}" class="cart-item-image">
-                            <p>${item.name} - $${item.price}</p>
-                            <button class="remove-item" data-id="${item._id}">Remove</button>
-                        `;
-                        cartItems.appendChild(itemElement);
-                        total += item.price;
-                    });
-                    cartTotal.textContent = "$" + total.toFixed(2);
-                    setupRemoveFromCartButtons();
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-            function setupRemoveFromCartButtons() {
-                const removeButtons = document.querySelectorAll(".remove-item");
-                removeButtons.forEach(button => {
-                    button.addEventListener("click", function() {
-                        const itemId = this.getAttribute("data-id");
-                        removeFromCart(itemId);
-                    });
-                });
-            }
-
-            function removeFromCart(itemId) {
-                fetch('/remove-from-cart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ itemId }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        updateCartDisplay();
-                        const button = document.querySelector(`.addToCartBtn[data-id="${itemId}"]`);
-                        if (button) {
-                            button.textContent = 'Add To Cart';
-                        }
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-            cartIcon.onclick = () => {
-                updateCartDisplay();
-                showPopup(cartPopup);
-            };
-            closeCartPopup.onclick = () => hidePopup(cartPopup);
-
-            window.onclick = function (event) {
-                if (event.target == cartPopup) {
-                    hidePopup(cartPopup);
-                }
-            }
-
-            updateCartDisplay();
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const productsContainer = document.querySelector('.products .box');
-            const productCards = productsContainer.querySelectorAll('.card');
-
-            searchInput.addEventListener('input', performSearch);
-
-            function performSearch() {
-                const query = searchInput.value.trim().toLowerCase();
-                let visibleCount = 0;
-
-                productCards.forEach(card => {
-                    const productName = card.querySelector('h2').textContent.toLowerCase();
-                    if (productName.includes(query)) {
-                        card.style.display = '';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                // Show or hide "No results found" message
-                let noResultsMsg = productsContainer.querySelector('.no-results-message');
-                if (visibleCount === 0) {
-                    if (!noResultsMsg) {
-                        noResultsMsg = document.createElement('p');
-                        noResultsMsg.className = 'no-results-message';
-                        noResultsMsg.textContent = 'No results found.';
-                        productsContainer.appendChild(noResultsMsg);
-                    }
-                    noResultsMsg.style.display = 'block';
-                } else if (noResultsMsg) {
-                    noResultsMsg.style.display = 'none';
-                }
-            }
-        });     
-
-        // Initialize all functionalities
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed');
-            setupNavigation();
-            setupAuthForms();
-            setupPreferredShoes();
-            setupCart();
-            setupOrderHistory();
-        });
-
-        // Admin button visibility
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const adminButton = document.querySelector('.admin-button');
-        //     if (adminButton) {
-        //         const userDataElement = document.getElementById('userData');
-        //         if (userDataElement) {
-        //             const userData = JSON.parse(userDataElement.textContent);
-        //             if (!userData.isAdmin) {
-        //                 adminButton.style.display = 'none';
-        //             }
-        //         } else {
-        //             adminButton.style.display = 'none';
-        //         }
-        //     }
-        // });
-    </script>
+    
     <script id="userData" type="application/json">
         <%- JSON.stringify({ isAdmin: user && user.role === 'admin' }) %>
     </script>
+    <script src="/js/shoes.js"></script>
 </body>
 </html>

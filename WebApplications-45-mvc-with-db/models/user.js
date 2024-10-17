@@ -21,18 +21,17 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'user'], 
         default: 'user'
     },
-    favorites: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shoe' 
+    cart: [{
+        shoe: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Shoe'
+        },
+        quantity: {
+            type: Number,
+            default: 1
+        }
     }],
-    cart: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shoe' 
-    }],
-    orders: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order'
-    }]
+    
 });
 
 
