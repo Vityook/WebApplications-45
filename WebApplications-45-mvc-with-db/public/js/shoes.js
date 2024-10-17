@@ -380,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPreferredShoes();
     setupCart();
     setupOrderHistory();
+    setupAdminEditFunctionality();
 });
 
 // Admin button visibility
@@ -397,3 +398,107 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// Add this new function for admin edit functionality
+function setupAdminEditFunctionality() {
+    const editButtons = document.querySelectorAll('.edit-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            const editForm = card.querySelector('.edit-form');
+            const productInfo = card.querySelectorAll('.product_text > *:not(.edit-form)');
+            
+            if (editForm && productInfo.length > 0) {
+                editForm.style.display = 'block';
+                productInfo.forEach(el => el.style.display = 'none');
+            } else {
+                console.error('Edit form or product info not found');
+            }
+        });
+    });
+
+    const cancelButtons = document.querySelectorAll('.cancel-edit');
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            const editForm = card.querySelector('.edit-form');
+            const productInfo = card.querySelectorAll('.product_text > *:not(.edit-form)');
+            
+            if (editForm && productInfo.length > 0) {
+                editForm.style.display = 'none';
+                productInfo.forEach(el => el.style.display = '');
+            }
+        });
+    });
+
+    const editForms = document.querySelectorAll('.edit-form form');
+    editForms.forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const productId = e.target.closest('.card').querySelector('.edit-btn').dataset.id;
+            try {
+                const response = await fetch(`/admin/update-shoe/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                });
+                
+                const responseText = await response.text();
+                console.log('Full server response:', responseText);
+                
+                let responseData;
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing response as JSON:', parseError);
+                    alert('Received invalid response from server');
+                    return;
+                }
+    
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Server response:', responseData);
+                    alert('Failed to update shoe: ' + (responseData.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error updating shoe:', error);
+                alert('Error updating shoe: ' + error.message);
+            }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const addShoeForm = document.getElementById('addShoeForm');
+        if (addShoeForm) {
+            addShoeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const shoeData = Object.fromEntries(formData);
+    
+                fetch('/admin/add-shoe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(shoeData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('New shoe added successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Failed to add new shoe: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the shoe');
+                });
+            });
+        }
+    });
+}

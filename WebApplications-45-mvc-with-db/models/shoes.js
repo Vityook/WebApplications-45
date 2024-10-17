@@ -1,12 +1,31 @@
 const mongoose = require('mongoose');
+const Image = require('./imageModel');
 
 // Define the shoe schema
 const shoeSchema = new mongoose.Schema({
-    name: String,
-    price: String,
-    imageSrc: String,
-    rating: Number,
-    isFavorite: Boolean
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Image',
+        required: true
+    },
+    rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5
+    },
+    isFavorite: {
+        type: Boolean,
+        default: false
+    }
 });
 
 // Create the shoe model
@@ -74,24 +93,36 @@ async function seedShoes() {
     ];
     try {
         for (const product of products) {
-            // מצא מוצר על פי imageSrc ועדכן אותו או צור חדש אם לא קיים
-            const existingProduct = await Shoe.findOneAndUpdate(
-                { imageSrc: product.imageSrc },  // חפש לפי imageSrc
-                product,  // עדכן לפי הנתונים החדשים
-                { new: true, upsert: true }  // אם לא קיים, צור אותו (upsert)
+            let image = await Image.findOneAndUpdate(
+                { path: product.imageSrc },
+                { name: product.name, path: product.imageSrc },
+                { upsert: true, new: true }
             );
-            console.log(`Product ${existingProduct.name} updated/added.`);
+
+            const shoeData = {
+                name: product.name,
+                price: product.price,
+                image: image._id,
+                rating: product.rating,
+                isFavorite: product.isFavorite
+            };
+
+            await Shoe.findOneAndUpdate(
+                { name: product.name, price: product.price },
+                shoeData,
+                { new: true, upsert: true }
+            );
         }
+        console.log('Shoe seeding completed successfully');
     } catch (err) {
-        console.error('Error during seeding: ', err);
+        console.error('Error during seeding:', err);
     }
 }
 
 // Function to get all shoes
 async function getAllshoes() {
     try {
-        const shoes = await Shoe.find();
-        return shoes;
+        return await Shoe.find().populate('image');
     } catch (err) {
         console.error('Error fetching all shoes:', err);
         return [];
@@ -101,7 +132,7 @@ async function getAllshoes() {
 // Function to get one shoe by ID
 async function getOneshoe(id) {
     try {
-        const shoe = await Shoe.findById(id);
+        const shoe = await Shoe.findById(id).populate('image');
         return shoe;
     } catch (err) {
         console.error('Error fetching single shoe:', err);
@@ -118,19 +149,33 @@ async function deleteShoe(id) {
     }
 }
 
+// Static method for searching shoes
 shoeSchema.statics.searchShoes = async function(query) {
     return this.find({
         $or: [
             { name: { $regex: query, $options: 'i' } },
             { price: { $regex: query, $options: 'i' } }
         ]
-    });
+    }).populate('image');
 };
+
+// Function to create a new shoe
+async function createShoe(shoeData) {
+    try {
+        const newShoe = new Shoe(shoeData);
+        await newShoe.save();
+        return newShoe.populate('image');
+    } catch (err) {
+        console.error('Error creating new shoe:', err);
+        throw err;
+    }
+}
 
 module.exports = {
     getAllshoes,
     getOneshoe,
     deleteShoe,
     seedShoes,
-    Shoe
+    Shoe,
+    createShoe
 };

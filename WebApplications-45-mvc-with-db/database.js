@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
-require('dotenv').config();  // Load dotenv
+require('dotenv').config();  // Load environment variables
 
-// Add this line to print out the MongoDB URI to ensure it's loaded correctly
-console.log('MongoDB URI:', process.env.MONGODB_URI);
 const connectDB = async () => {
   try {
-    const mongoURI = MONGODB_URI="mongodb+srv://admin:123123123@cluster0.aqi7p.mongodb.net/shoeshopDB?retryWrites=true&w=majority&appName=Cluster0"; // Load the MongoDB URI from environment variables
+    // Load the MongoDB URI from environment variables
+    const mongoURI = process.env.MONGODB_URI;
+
     if (!mongoURI) {
       throw new Error('MONGODB_URI is not defined in the .env file');
     }
 
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Connect to the database without deprecated options
+    await mongoose.connect(mongoURI);
+
+    console.log('MongoDB connected successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err);
-    process.exit(1);
+    process.exit(1); // Exit with failure
   }
 };
 

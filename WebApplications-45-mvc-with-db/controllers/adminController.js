@@ -1,5 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const { Shoe } = require('../models/shoes');
+const Image = require('../models/imageModel');
 
 exports.getAdminPanel = async (req, res) => {
     try {
@@ -89,5 +91,70 @@ exports.resetPassword = async (req, res) => {
     } catch (error) {
         console.error('Error resetting password:', error);
         res.status(500).json({ success: false, message: 'Error resetting password' });
+    }
+};
+
+
+exports.updateShoe = async (req, res) => {
+    const { shoeId } = req.params;
+    const { name, price, imageSrc, rating } = req.body;
+    
+    console.log('Updating shoe:', shoeId);
+    console.log('Request body:', req.body);
+
+    try {
+        console.log('Attempting to find and update shoe');
+        console.log('Shoe methods available:', Object.getOwnPropertyNames(Shoe));
+        
+        if (typeof Shoe.findByIdAndUpdate !== 'function') {
+            console.error('findByIdAndUpdate is not a function on Shoe');
+            console.log('Available methods on Shoe:', Object.getOwnPropertyNames(Shoe));
+            throw new Error('Shoe.findByIdAndUpdate is not a function');
+        }
+
+        const shoe = await Shoe.findByIdAndUpdate(
+            shoeId, 
+            { name, price, imageSrc, rating }, 
+            { new: true, runValidators: true }
+        );
+
+        if (!shoe) {
+            console.log('Shoe not found:', shoeId);
+            return res.status(404).json({ success: false, message: 'Shoe not found' });
+        }
+
+        console.log('Shoe updated successfully:', shoe);
+        res.json({ success: true, shoe });
+    } catch (error) {
+        console.error('Error updating shoe:', error);
+        res.status(500).json({ success: false, message: 'Error updating shoe', error: error.message });
+    }
+};
+
+exports.renderAddShoeForm = async (req, res) => {
+    try {
+        const images = await Image.find();
+        res.render('addShoe', { images });
+    } catch (error) {
+        console.error('Error fetching images:', error);
+        res.status(500).send('Error fetching images');
+    }
+};
+
+exports.addShoe = async (req, res) => {
+    const { name, price, imageId, rating } = req.body;
+    
+    try {
+        const newShoe = await createShoe({
+            name,
+            price,
+            image: imageId,
+            rating: parseFloat(rating)
+        });
+
+        res.status(201).json({ success: true, shoe: newShoe });
+    } catch (error) {
+        console.error('Error adding new shoe:', error);
+        res.status(500).json({ success: false, message: 'Error adding new shoe', error: error.message });
     }
 };

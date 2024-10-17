@@ -16,7 +16,7 @@ exports.showAllshoes = async (req, res) => {
 
 exports.getOneshoe = async (req, res) => {
     try {
-        const shoe = await getOneshoe(req.query.id);
+        const shoe = await Shoe.findById(req.query.id).populate('image');
         if (shoe) {
             res.render('shoe', { 
                 product: shoe,

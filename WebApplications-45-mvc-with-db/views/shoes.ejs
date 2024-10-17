@@ -36,14 +36,7 @@
             </div>
         </nav>
 
-        <!-- <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for shoes by name...">
-        </div> -->
-
-        <!-- <div id="preferredShoesPopup" class="preferred-popup" style="display: none;">
-            <h2>Favorites</h2>
-            <div id="preferredShoesContainer"></div>
-        </div> -->
+       
         <!-- Login and Register Popup -->
         <% if (!isAuthenticated) { %>
             <div class="popup-container" id="popupContainer">
@@ -127,6 +120,24 @@
         </div>
     </section>
 
+    <% if (user && user.role === 'admin') { %>
+        <div class="add-shoe-form">
+            <h2>Add New Shoe</h2>
+            <form id="addShoeForm">
+                <input type="text" name="name" placeholder="Shoe Name" required>
+                <input type="text" name="price" placeholder="Price" required>
+                <input type="number" name="rating" min="1" max="5" step="0.5" placeholder="Rating" required>
+                <select name="imageSrc" required>
+                    <option value="">Select Image</option>
+                    <% for(let i = 2; i <= 8; i++) { %>
+                        <option value="images/pic<%= i %>.png">Image <%= i %></option>
+                    <% } %>
+                </select>
+                <button type="submit">Add Shoe</button>
+            </form>
+        </div>
+    <% } %>
+
     <!-- Products Section -->
     <div class="box">
         <div class="products" id="Prod">
@@ -140,7 +151,11 @@
                             <% } %>
                         </div>
                         <div class="image">
-                            <img src="<%= products[i].imageSrc %>" alt="<%= products[i].name %>">
+                            <% if (products[i].image && products[i].image.url) { %>
+                                <img src="<%= products[i].image.url %>" alt="<%= products[i].name %>">
+                            <% } else { %>
+                                <img src="/images/placeholder.png" alt="<%= products[i].name %>">
+                            <% } %>
                         </div>
                         <div class="product_text">
                             <h2><%= products[i].name %></h2>
@@ -148,6 +163,7 @@
                             <a class="link" href="/shoe?id=<%= products[i].id %>">Show</a>
                             <% if (user && user.role === 'admin') { %>
                                 <a class="link" href="/deleteshoe?id=<%= products[i].id %>">Delete</a>
+                                <button class="edit-btn" data-id="<%= products[i]._id %>">Edit</button>
                             <% } %>
                             <div class="stars">
                                 <% for(let j = 0; j < products[i].rating; j++) { %>
@@ -163,9 +179,18 @@
                             <% } else { %>
                                 <a href="#" class="btn loginPrompt">Add To Cart</a>
                             <% } %>
-
-                            <% if (isAuthenticated) { %>
-                                <li><a href="#" id="orderHistoryLink">Order History</a></li>
+                            
+                            <% if (user && user.role === 'admin') { %>
+                                <div class="edit-form" style="display: none;">
+                                    <form>
+                                        <input type="text" name="name" value="<%= products[i].name %>" required>
+                                        <input type="text" name="price" value="<%= products[i].price %>" required>
+                                        <input type="text" name="imageSrc" value="<%= products[i].imageSrc %>" required>
+                                        <input type="number" name="rating" value="<%= products[i].rating %>" min="1" max="5" required>
+                                        <button type="submit">Save</button>
+                                        <button type="button" class="cancel-edit">Cancel</button>
+                                    </form>
+                                </div>
                             <% } %>
                         </div>
                     </div>

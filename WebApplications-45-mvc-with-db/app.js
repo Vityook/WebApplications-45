@@ -77,6 +77,10 @@ app.post('/admin/update-user-role', isAuthenticated, isAdmin, adminController.up
 app.delete('/admin/delete-user/:userId', isAuthenticated, isAdmin, adminController.deleteUser);
 app.post('/admin/create-user', isAuthenticated, isAdmin, adminController.createUser);
 app.post('/admin/reset-password/:userId', isAuthenticated, isAdmin, adminController.resetPassword);
+app.post('/admin/update-shoe/:shoeId', isAuthenticated, isAdmin, adminController.updateShoe);
+app.post('/admin/add-shoe', isAuthenticated, isAdmin, adminController.addShoe);
+app.get('/admin/add-shoe', isAuthenticated, isAdmin, adminController.renderAddShoeForm);
+
 
 // Deleting shoes as an admin
 app.get('/deleteshoe', isAuthenticated, isAdmin, (req, res) => {
