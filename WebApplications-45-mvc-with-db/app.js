@@ -1,7 +1,6 @@
-
 const express = require('express');
 const connectDB = require('./database');
-const { seedShoes, getAllshoes } = require('./models/shoes');  // ייבוא הפונקציה getAllshoes
+const { seedShoes } = require('./models/shoes');
 const session = require('express-session');
 const authRoutes = require('./routes/authRoutes');
 const authController = require('./controllers/authController');
@@ -12,6 +11,7 @@ const aboutController = require('./controllers/about');
 const servicesController = require('./controllers/services');
 const reviewController = require('./controllers/review');
 const adminController = require('./controllers/adminController');
+const userController = require('./controllers/userController');
 require('dotenv').config();
 
 const app = express();
@@ -28,13 +28,6 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
-// Admin routes
-app.get('/admin/panel', isAuthenticated, isAdmin, adminController.getAdminPanel);
-app.post('/admin/update-user-role', isAuthenticated, isAdmin, adminController.updateUserRole);
-app.delete('/admin/delete-user/:userId', isAuthenticated, isAdmin, adminController.deleteUser);
-app.post('/admin/create-user', isAuthenticated, isAdmin, adminController.createUser);
-app.post('/admin/reset-password/:userId', isAuthenticated, isAdmin, adminController.resetPassword);
-
 // Authentication middleware
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.user ? true : false;
@@ -42,38 +35,48 @@ app.use((req, res, next) => {
   next();
 });
 
-// Use authentication routes
-app.use('/auth', authRoutes);
-
-// Define routes
-app.get('/', shoesController.showAllshoes);  // מציג את כל הנעליים דרך shoesController
+// Public routes
+app.get('/', shoesController.showAllshoes);
 app.get('/login', loginController.loginpage);
-app.get('/shoe', shoesController.getOneshoe);
-
-// Handle shoe deletion
-app.get('/deleteshoe', isAuthenticated, isAdmin, (req, res) => {
-  if (typeof shoesController.deleteShoe === 'function') {
-      shoesController.deleteShoe(req, res);
-  } else {
-      res.status(500).send('deleteShoe function is not defined');
-  }
-});
-
 app.get('/about', aboutController.aboutpage);
 app.get('/review', reviewController.reviewpage);
 app.get('/services', servicesController.servicespage);
+app.get('/shoe', shoesController.getOneshoe);
+app.get('/search', shoesController.searchShoes);
 
 // Authentication routes
+app.use('/auth', authRoutes);
 app.post('/login', authController.login);
 
+// Protected user routes
+app.post('/toggle-favorite', isAuthenticated, userController.toggleFavorite);
+app.get('/cart', isAuthenticated, userController.getCart);
+app.post('/cart/add', isAuthenticated, userController.addToCart);
+app.post('/cart/remove', isAuthenticated, userController.removeFromCart);
+app.post('/create-order', isAuthenticated, userController.createOrder);
+app.get('/order-history', isAuthenticated, userController.getOrderHistory);
+
+// Admin routes
 app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
   res.send('Welcome to the admin panel!');
+});
+app.get('/admin/panel', isAuthenticated, isAdmin, adminController.getAdminPanel);
+app.post('/admin/update-user-role', isAuthenticated, isAdmin, adminController.updateUserRole);
+app.delete('/admin/delete-user/:userId', isAuthenticated, isAdmin, adminController.deleteUser);
+app.post('/admin/create-user', isAuthenticated, isAdmin, adminController.createUser);
+app.post('/admin/reset-password/:userId', isAuthenticated, isAdmin, adminController.resetPassword);
+app.get('/deleteshoe', isAuthenticated, isAdmin, (req, res) => {
+  if (typeof shoesController.deleteShoe === 'function') {
+    shoesController.deleteShoe(req, res);
+  } else {
+    res.status(500).send('deleteShoe function is not defined');
+  }
 });
 
 // Connect to MongoDB and seed products
 connectDB()
   .then(async () => {
-    await seedShoes();  // הוספת הנעליים לדאטאבייס אם לא קיימות
+    await seedShoes();
     const PORT = process.env.PORT || 80;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
@@ -82,4 +85,3 @@ connectDB()
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
   });
-

@@ -678,3 +678,28 @@ section .main .social_icon i:hover{
     color: #000;
   }
   
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+#searchInput {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+}
+#searchButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+#searchButton:hover {
+    background-color: #45a049;
+}
+#searchResults {
+    margin-top: 20px;
+}

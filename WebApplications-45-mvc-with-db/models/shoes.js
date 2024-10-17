@@ -118,6 +118,15 @@ async function deleteShoe(id) {
     }
 }
 
+shoeSchema.statics.searchShoes = async function(query) {
+    return this.find({
+        $or: [
+            { name: { $regex: query, $options: 'i' } },
+            { price: { $regex: query, $options: 'i' } }
+        ]
+    });
+};
+
 module.exports = {
     getAllshoes,
     getOneshoe,
