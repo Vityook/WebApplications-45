@@ -201,7 +201,7 @@
                                         <select name="imageId" required>
                                             <option value="">Select Image</option>
                                             <% images.forEach(image => { %>
-                                                <option value="<%= image._id %>" <%= image._id.toString() === products[i].image._id.toString() ? 'selected' : '' %>><%= image.name %></option>
+                                                <option value="<%= image._id %>" <%= products[i].image && image._id.toString() === products[i].image._id.toString() ? 'selected' : '' %>><%= image.name %></option>
                                             <% }) %>
                                         </select>
                                         
