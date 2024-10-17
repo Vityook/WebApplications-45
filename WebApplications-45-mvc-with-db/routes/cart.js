@@ -8,7 +8,7 @@ const { isAuthenticated } = require('../middlewares/authMiddleware');
 
 // router.post('/add', cartController.add);
 // router.post('/remove', cartController.remove);
-console.log('Imported cartController:', cartController);
+
 
 
 

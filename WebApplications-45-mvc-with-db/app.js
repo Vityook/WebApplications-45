@@ -14,6 +14,7 @@ const servicesController = require('./controllers/services');
 const reviewController = require('./controllers/review');
 const adminController = require('./controllers/adminController');
 const userController = require('./controllers/userController');
+const adminRoutes = require('./routes/adminRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -53,6 +54,9 @@ app.use('/auth', authRoutes);
 
 // Cart routes
 app.use('/cart', cartRoutes); 
+
+// Admin routes
+app.use('/admin', adminRoutes);
 
 // Favorite routes
 app.use('/favorite', favoriteRoutes); 

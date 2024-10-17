@@ -185,7 +185,15 @@
                                     <form>
                                         <input type="text" name="name" value="<%= products[i].name %>" required>
                                         <input type="text" name="price" value="<%= products[i].price %>" required>
-                                        <input type="text" name="imageSrc" value="<%= products[i].imageSrc %>" required>
+                                        
+                                        <!-- Instead of imageSrc, use a select box to choose from images in the DB -->
+                                        <select name="imageId" required>
+                                            <option value="">Select Image</option>
+                                            <% images.forEach(image => { %>
+                                                <option value="<%= image._id %>" <%= image._id.toString() === products[i].image._id.toString() ? 'selected' : '' %>><%= image.name %></option>
+                                            <% }) %>
+                                        </select>
+                                        
                                         <input type="number" name="rating" value="<%= products[i].rating %>" min="1" max="5" required>
                                         <button type="submit">Save</button>
                                         <button type="button" class="cancel-edit">Cancel</button>

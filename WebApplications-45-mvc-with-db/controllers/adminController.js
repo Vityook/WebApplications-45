@@ -97,37 +97,23 @@ exports.resetPassword = async (req, res) => {
 
 exports.updateShoe = async (req, res) => {
     const { shoeId } = req.params;
-    const { name, price, imageSrc, rating } = req.body;
-    
-    console.log('Updating shoe:', shoeId);
-    console.log('Request body:', req.body);
+    const { name, price, imageId, rating } = req.body;
 
     try {
-        console.log('Attempting to find and update shoe');
-        console.log('Shoe methods available:', Object.getOwnPropertyNames(Shoe));
-        
-        if (typeof Shoe.findByIdAndUpdate !== 'function') {
-            console.error('findByIdAndUpdate is not a function on Shoe');
-            console.log('Available methods on Shoe:', Object.getOwnPropertyNames(Shoe));
-            throw new Error('Shoe.findByIdAndUpdate is not a function');
-        }
-
-        const shoe = await Shoe.findByIdAndUpdate(
-            shoeId, 
-            { name, price, imageSrc, rating }, 
+        const updatedShoe = await Shoe.findByIdAndUpdate(
+            shoeId,
+            { name, price, image: imageId, rating },
             { new: true, runValidators: true }
-        );
+        ).populate('image');  // Ensure the image is populated in the updated shoe
 
-        if (!shoe) {
-            console.log('Shoe not found:', shoeId);
+        if (!updatedShoe) {
             return res.status(404).json({ success: false, message: 'Shoe not found' });
         }
 
-        console.log('Shoe updated successfully:', shoe);
-        res.json({ success: true, shoe });
+        res.json({ success: true, shoe: updatedShoe });
     } catch (error) {
         console.error('Error updating shoe:', error);
-        res.status(500).json({ success: false, message: 'Error updating shoe', error: error.message });
+        res.status(500).json({ success: false, message: 'Error updating shoe' });
     }
 };
 

@@ -1,5 +1,5 @@
 const cartService = require('../services/cart');
-console.log('cartService:', cartService);
+
 
 const cartController = {
     getCart: async (req, res) => {

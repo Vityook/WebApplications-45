@@ -113,7 +113,7 @@ async function seedShoes() {
                 { new: true, upsert: true }
             );
         }
-        console.log('Shoe seeding completed successfully');
+        
     } catch (err) {
         console.error('Error during seeding:', err);
     }

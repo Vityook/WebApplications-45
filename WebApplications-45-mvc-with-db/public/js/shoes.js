@@ -474,22 +474,25 @@ function setupAdminEditFunctionality() {
         const addShoeForm = document.getElementById('addShoeForm');
         if (addShoeForm) {
             addShoeForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default form submission behavior
+    
+                // Gather form data
                 const formData = new FormData(this);
                 const shoeData = Object.fromEntries(formData);
     
+                // Make a POST request to add a new shoe
                 fetch('/admin/add-shoe', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json',  // Convert form data to JSON
                     },
                     body: JSON.stringify(shoeData)
                 })
-                .then(response => response.json())
+                .then(response => response.json())  // Parse the JSON response
                 .then(data => {
                     if (data.success) {
                         alert('New shoe added successfully!');
-                        window.location.reload();
+                        window.location.reload();  // Reload the page to show the new shoe
                     } else {
                         alert('Failed to add new shoe: ' + data.message);
                     }

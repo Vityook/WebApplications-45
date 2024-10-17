@@ -1,10 +1,14 @@
 const { Shoe, getAllshoes, getOneshoe, deleteShoe } = require('../models/shoes');
+const Image = require('../models/imageModel');
 
 exports.showAllshoes = async (req, res) => {
     try {
-        const shoes = await getAllshoes();
-        res.render('shoes', { 
-            products: shoes,
+        const products = await getAllshoes();
+        const images = await Image.find();  // Fetch all available images
+
+        res.render('shoes', {
+            products,
+            images,  // Pass the images array to the view
             isAuthenticated: req.session.user ? true : false,
             user: req.session.user || null
         });
@@ -13,7 +17,6 @@ exports.showAllshoes = async (req, res) => {
         res.status(500).send('Error fetching shoes');
     }
 };
-
 exports.getOneshoe = async (req, res) => {
     try {
         const shoe = await Shoe.findById(req.query.id).populate('image');
