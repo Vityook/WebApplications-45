@@ -470,38 +470,30 @@ function setupAdminEditFunctionality() {
             }
         });
     });
-    document.addEventListener('DOMContentLoaded', function() {
-        const addShoeForm = document.getElementById('addShoeForm');
-        if (addShoeForm) {
-            addShoeForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission behavior
+    document.getElementById('addShoeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const shoeData = Object.fromEntries(formData);
     
-                // Gather form data
-                const formData = new FormData(this);
-                const shoeData = Object.fromEntries(formData);
-    
-                // Make a POST request to add a new shoe
-                fetch('/admin/add-shoe', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',  // Convert form data to JSON
-                    },
-                    body: JSON.stringify(shoeData)
-                })
-                .then(response => response.json())  // Parse the JSON response
-                .then(data => {
-                    if (data.success) {
-                        alert('New shoe added successfully!');
-                        window.location.reload();  // Reload the page to show the new shoe
-                    } else {
-                        alert('Failed to add new shoe: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while adding the shoe');
-                });
-            });
-        }
+        fetch('/admin/add-shoe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(shoeData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Shoe added successfully!');
+                window.location.reload(); // Reload page after successful submission
+            } else {
+                alert('Failed to add shoe: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while adding the shoe');
+        });
     });
 }

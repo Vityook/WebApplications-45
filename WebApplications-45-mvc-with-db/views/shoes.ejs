@@ -121,20 +121,31 @@
     </section>
 
     <% if (user && user.role === 'admin') { %>
+        <!-- Form to add a new shoe -->
         <div class="add-shoe-form">
             <h2>Add New Shoe</h2>
             <form id="addShoeForm">
                 <input type="text" name="name" placeholder="Shoe Name" required>
                 <input type="text" name="price" placeholder="Price" required>
                 <input type="number" name="rating" min="1" max="5" step="0.5" placeholder="Rating" required>
-                <select name="imageSrc" required>
+                <select name="imageId" required>
                     <option value="">Select Image</option>
-                    <% for(let i = 2; i <= 8; i++) { %>
-                        <option value="images/pic<%= i %>.png">Image <%= i %></option>
-                    <% } %>
+                    <% images.forEach(image => { %>
+                        <option value="<%= image._id %>"><%= image.name %></option>
+                    <% }) %>
                 </select>
                 <button type="submit">Add Shoe</button>
             </form>
+        </div>
+
+        <!-- Popup Window (hidden by default) -->
+        <div id="popupWindow" class="popup" style="display: none;">
+            <div class="popup-content">
+                <span class="close" id="closePopup">&times;</span>
+                <h3>Admin Action Confirmation</h3>
+                <p>Are you sure you want to add this shoe?</p>
+                <button id="confirmAddShoe">Confirm</button>
+            </div>
         </div>
     <% } %>
 

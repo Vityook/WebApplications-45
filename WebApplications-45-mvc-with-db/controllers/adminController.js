@@ -2,7 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const { Shoe } = require('../models/shoes');
 const Image = require('../models/imageModel');
-
+const { createShoe } = require('../models/shoes');
 exports.getAdminPanel = async (req, res) => {
     try {
         const users = await User.find({}).select('-password');
@@ -128,8 +128,10 @@ exports.renderAddShoeForm = async (req, res) => {
 };
 
 exports.addShoe = async (req, res) => {
-    const { name, price, imageId, rating } = req.body;
-    
+    let { name, price, imageId, rating } = req.body;
+    if (!price.endsWith('$')) {
+        price = `${price}$`;
+    }
     try {
         const newShoe = await createShoe({
             name,
